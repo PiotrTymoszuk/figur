@@ -9,8 +9,8 @@
 \arguments{
 \item{figure_object}{A figure object}
 
-\item{what}{The requested feature. 
-'plot': the ggplot, 'label': the rendering/saving label, 'h': rendering height, 
+\item{what}{The requested feature.
+'plot': the ggplot, 'label': the rendering/saving label, 'h': rendering height,
 'w': the rendering width, 'unit': the rendering unit.}
 }
 \value{
