@@ -11,8 +11,10 @@ Encoding: UTF-8
 LazyData: true
 Depends: R (>= 4.0.3)
 Imports:
-   ggplot2,
-   cowplot
+    ggplot2,
+    cowplot,
+    purrr,
+    rlang
 Suggests:
    tidyverse
 Authors@R: 
