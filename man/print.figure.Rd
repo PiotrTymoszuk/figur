@@ -4,10 +4,10 @@
 \alias{print.figure}
 \title{Print figure object properties.}
 \usage{
-\method{print}{figure}(figure_object)
+\method{print}{figure}(x, ...)
 }
 \arguments{
-\item{figure_object}{A figure object}
+\item{x}{A figure object}
 }
 \value{
 The figure's label and dimensions

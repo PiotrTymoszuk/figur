@@ -4,10 +4,10 @@
 \alias{convert.figure}
 \title{Convert plot units.}
 \usage{
-\method{convert}{figure}(figure_object, to = c("mm", "cm", "in"))
+\method{convert}{figure}(x, to = c("mm", "cm", "in"))
 }
 \arguments{
-\item{figure_object}{A figure object}
+\item{x}{A figure object}
 
 \item{to}{the requested unit}
 }

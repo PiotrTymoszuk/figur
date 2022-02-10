@@ -4,10 +4,10 @@
 \alias{plot.figure}
 \title{Plot a figure object.}
 \usage{
-\method{plot}{figure}(figure_object)
+\method{plot}{figure}(x, ...)
 }
 \arguments{
-\item{figure_object}{A figure object}
+\item{x}{A figure object}
 }
 \value{
 The figure's ggplot object

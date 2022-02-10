@@ -4,10 +4,10 @@
 \alias{height.figure}
 \title{Get figure object's height.}
 \usage{
-\method{height}{figure}(figure_object)
+\method{height}{figure}(x, ...)
 }
 \arguments{
-\item{figure_object}{A figure object}
+\item{x}{A figure object}
 }
 \value{
 The figure's height

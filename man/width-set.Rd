@@ -4,18 +4,16 @@
 \alias{width<-}
 \title{Set object width.}
 \usage{
-width(figure_object, lock = FALSE) <- value
+width(x, lock = FALSE) <- value
 
-width(figure_object, lock = FALSE) <- value
+width(x, lock = FALSE) <- value
 }
 \arguments{
-\item{figure_object}{A figure object}
+\item{x}{A figure object}
 
 \item{value}{New height}
 
 \item{lock}{If TRUE, the aspect ratio is kept constant (scaling)}
-
-\item{x}{An object of interest}
 
 \item{...}{Arguments passed to specific methods}
 }

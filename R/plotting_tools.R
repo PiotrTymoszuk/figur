@@ -131,78 +131,78 @@
 
 #' Extract features of a figure object.
 #'
-#' @param figure_object A figure object
+#' @param x A figure object
 #' @param what The requested feature.
 #'    'plot': the ggplot, 'label': the rendering/saving label, 'h': rendering height,
 #'    'w': the rendering width, 'unit': the rendering unit.
 #' @return The requested feature
 #' @export
 
-  extract.figure <- function(figure_object, what = c('plot', 'label', 'w', 'h', 'unit')) {
+  extract.figure <- function(x, what = c('plot', 'label', 'w', 'h', 'unit')) {
 
-    stopifnot(is_figure(figure_object))
+    stopifnot(is_figure(x))
 
     what <- match.arg(what[1], c('plot', 'label', 'w', 'h', 'unit'))
 
-    figure_object[[what]]
+    x[[what]]
 
   }
 
 #' Print figure object properties.
 #'
-#' @param figure_object A figure object
+#' @param x A figure object
 #' @return The figure's label and dimensions
 #' @export
 
-  print.figure <- function(figure_object) {
+  print.figure <- function(x, ...) {
 
-    stopifnot(is_figure(figure_object))
+    stopifnot(is_figure(x))
 
-    cat(paste0(extract(figure_object, 'label'),
-               ', Width: ', extract(figure_object, 'w'), ' ', extract(figure_object, 'unit'),
-               ', Height: ', extract(figure_object, 'h'), ' ', extract(figure_object, 'unit')))
+    cat(paste0(extract(x, 'label'),
+               ', Width: ', extract(x, 'w'), ' ', extract(x, 'unit'),
+               ', Height: ', extract(x, 'h'), ' ', extract(x, 'unit')))
 
   }
 
 #' Plot a figure object.
 #'
-#' @param figure_object A figure object
+#' @param x A figure object
 #' @return The figure's ggplot object
 #' @export
 
-  plot.figure <- function(figure_object) {
+  plot.figure <- function(x, ...) {
 
-    stopifnot(is_figure(figure_object))
+    stopifnot(is_figure(x))
 
-    extract(figure_object, 'plot')
+    extract(x, 'plot')
 
   }
 
 #' Get figure object's height.
 #'
-#' @param figure_object A figure object
+#' @param x A figure object
 #' @return The figure's height
 #' @export
 
-  height.figure <- function(figure_object) {
+  height.figure <- function(x, ...) {
 
-    stopifnot(is_figure(figure_object))
+    stopifnot(is_figure(x))
 
-    extract(figure_object, 'h')
+    extract(x, 'h')
 
   }
 
 #' Get figure object's width.
 #'
-#' @param figure_object A figure object
+#' @param x A figure object
 #' @return The figure's width
 #' @export
 
-  width.figure <- function(figure_object) {
+  width.figure <- function(x, ...) {
 
-    stopifnot(is_figure(figure_object))
+    stopifnot(is_figure(x), ...)
 
-    extract(figure_object, 'w')
+    extract(x, 'w')
 
   }
 
@@ -210,51 +210,51 @@
 
 #' Set figure object height.
 #'
-#' @param figure_object A figure object
+#' @param x A figure object
 #' @param value New height
 #' @param lock If TRUE, the aspect ratio is kept constant (scaling)
 #' @return A figure object with the height property modified
 #' @export
 
-  `height<-` <- function(figure_object, value, lock = FALSE) {
+  `height<-` <- function(x, value, lock = FALSE) {
 
     if(lock) {
 
-      old_w <- width(figure_object)
-      old_h <- height(figure_object)
+      old_w <- width(x)
+      old_h <- height(x)
 
-      width(figure_object) <- old_w * value/old_h
+      width(x) <- old_w * value/old_h
 
     }
 
-    figure_object$h <- value
+    x$h <- value
 
-    figure_object
+    x
 
   }
 
 #' Set figure object width.
 #'
-#' @param figure_object A figure object
+#' @param x A figure object
 #' @param value New height
 #' @param lock If TRUE, the aspect ratio is kept constant (scaling)
 #' @return A figure object with the height property modified
 #' @export
 
-  `width<-` <- function(figure_object, value, lock = FALSE) {
+  `width<-` <- function(x, value, lock = FALSE) {
 
     if(lock) {
 
-      old_w <- width(figure_object)
-      old_h <- height(figure_object)
+      old_w <- width(x)
+      old_h <- height(x)
 
-      height(figure_object) <- old_h * value/old_w
+      height(x) <- old_h * value/old_w
 
     }
 
-    figure_object$w <- value
+    x$w <- value
 
-    figure_object
+    x
 
   }
 
@@ -306,30 +306,30 @@
 
 #' Convert plot units.
 #'
-#' @param figure_object A figure object
+#' @param x A figure object
 #' @param to the requested unit
 #' @return A figure object with the dimensions converted to the requested unit
 #' @export
 
-  convert.figure <- function(figure_object, to = c('mm', 'cm', 'in')) {
+  convert.figure <- function(x, to = c('mm', 'cm', 'in')) {
 
-    stopifnot(is_figure(figure_object))
+    stopifnot(is_figure(x))
 
-    old_unit <- extract(figure_object, 'unit')
-    old_h <- height(figure_object)
-    old_w <- width(figure_object)
+    old_unit <- extract(x, 'unit')
+    old_h <- height(x)
+    old_w <- width(x)
 
-    height(figure_object, lock = FALSE) <- convert(old_h,
-                                                   from = old_unit,
-                                                   to = to)
+    height(x, lock = FALSE) <- convert(old_h,
+                                       from = old_unit,
+                                       to = to)
 
-    width(figure_object, lock = FALSE) <- convert(old_w,
-                                                  from = old_unit,
-                                                  to = to)
+    width(x, lock = FALSE) <- convert(old_w,
+                                      from = old_unit,
+                                      to = to)
 
-    figure_object$unit <- to
+    x$unit <- to
 
-    figure_object
+    x
 
   }
 

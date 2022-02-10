@@ -4,10 +4,10 @@
 \alias{extract.figure}
 \title{Extract features of a figure object.}
 \usage{
-\method{extract}{figure}(figure_object, what = c("plot", "label", "w", "h", "unit"))
+\method{extract}{figure}(x, what = c("plot", "label", "w", "h", "unit"))
 }
 \arguments{
-\item{figure_object}{A figure object}
+\item{x}{A figure object}
 
 \item{what}{The requested feature.
 'plot': the ggplot, 'label': the rendering/saving label, 'h': rendering height,

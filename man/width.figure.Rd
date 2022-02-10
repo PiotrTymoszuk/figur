@@ -4,10 +4,10 @@
 \alias{width.figure}
 \title{Get figure object's width.}
 \usage{
-\method{width}{figure}(figure_object)
+\method{width}{figure}(x, ...)
 }
 \arguments{
-\item{figure_object}{A figure object}
+\item{x}{A figure object}
 }
 \value{
 The figure's width
