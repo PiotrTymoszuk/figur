@@ -9,7 +9,10 @@ insert_figure(
   file = NULL,
   ref_names = NULL,
   captions = NULL,
-  add_extern_legend = TRUE,
+  legend = TRUE,
+  legend_text = "<<legend>>",
+  html = FALSE,
+  style_ref = "legend",
   append = FALSE
 )
 }
@@ -24,10 +27,17 @@ If NULL, default names ('figure1', 'figure2' and so on) are used.}
 
 \item{captions}{figure captions. If NULL, default captions ('caption for figure 1' and so on) are used.}
 
-\item{append}{logical, should the output file be appended?}
-
 \item{legend}{logical, should a text with the figure reference in bold be included below
 the figure chunk?}
+
+\item{legend_text}{a character vector or list with detailed legend texts.}
+
+\item{html}{logical: should the legend be HTML styled?}
+
+\item{style_ref}{name of the CSS style of the legend text, valid only for
+the HTML output.}
+
+\item{append}{logical, should the output file be appended?}
 }
 \description{
 Builds a character with the R code chunks for the given figure objects.
