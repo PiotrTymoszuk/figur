@@ -21,9 +21,11 @@ build_fig_back(
 
 \item{caption}{figure caption.}
 
-\item{figure_w}{figure width in inches.}
+\item{figure_w}{figure width in inches or a call to a function
+returning a numeric provided as a character.}
 
-\item{figure_h}{figure height in inches.}
+\item{figure_h}{figure height in inches or a call to a function
+returning a numeric provided as a character.}
 
 \item{legend}{logical, should a text with the figure reference in bold be included below
 the figure chunk?}

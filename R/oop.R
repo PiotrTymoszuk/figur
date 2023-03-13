@@ -170,6 +170,44 @@
 
   }
 
+# extracting and printing for the mdlink objects -------
+
+#' Extract features of an mdlink object.
+#'
+#' @param x an mdlink object.
+#' @param what feature to be extracted:
+#' 'ref_name': reference name used in R markdown or
+#' 'URL': the link's URL.
+#' @param ... extra arguments, currently none.
+#' @export
+
+  extract.mdlink <- function(x,
+                            what = c('ref_name', 'URL'), ...) {
+
+    stopifnot(is_mdlink(x))
+
+    x[[what]]
+
+  }
+
+#' Print an mdlink object.
+#'
+#' @description displays an mdlink object.
+#' @param x an mdlink object.
+#' @param ... extra arguments, currently none.
+#' @export
+
+  print.mdlink <- function(x, ...) {
+
+    stopifnot(is_mdlink(x))
+
+    cat(paste(x[['ref_name']],
+              x[['URL']],
+              sep = ': '))
+
+  }
+
+
 # figure S3 methods: setting width and height -----
 
 #' Set figure object height.
@@ -314,6 +352,9 @@
 #' @param style_ref name of the CSS style of the legend text, valid only for
 #' the HTML output.
 #' @param append logical, should the output file be appended?
+#' @param relative_dim logical, should the figure dimensions be inserted
+#' as a call to an unit-converting function? If FALSE, fixed numeric dimensions
+#' are inserted into the code chunk.
 #' @param ... extra arguments, currently none.
 #' @details Only for the figure class instances with
 #' defined 'ref_name' and 'caption' parameters.
@@ -328,9 +369,10 @@
                             file = NULL,
                             html = FALSE,
                             style_ref = 'legend',
-                            append = TRUE, ...) {
+                            append = TRUE,
+                            relative_dim = FALSE, ...) {
 
-    ## entry control
+    ## entry control -----
 
     stopifnot(figur::is_figure(object))
     stopifnot(is.logical(html))
@@ -374,15 +416,34 @@
 
     }
 
-    ## figure chunk construction
+    ## handling dimensions -------
+
+    if(!relative_dim) {
+
+      object_w <- object$w
+      object_h <- object$h
+
+    } else {
+
+      dim_call_str <-
+        paste0("figur::convert(",
+               rlang::as_label(object_ref),
+               ", to = 'in')")
+
+      object_w <- paste0(dim_call_str, '$w')
+      object_h <- paste0(dim_call_str, '$h')
+
+    }
+
+    ## figure chunk construction --------
 
     if(!html) {
 
       chunk <- figur:::build_fig_back(figure_call = object_ref,
                                       ref_name = object$ref_name,
                                       caption = object$caption,
-                                      figure_w = object$w,
-                                      figure_h = object$h,
+                                      figure_w = object_w,
+                                      figure_h = object_h,
                                       legend = TRUE,
                                       legend_text = legend_text)
 
@@ -391,8 +452,8 @@
       chunk <- figur:::build_fig_html(figure_call = object_ref,
                                       ref_name = object$ref_name,
                                       caption = object$caption,
-                                      figure_w = object$w,
-                                      figure_h = object$h,
+                                      figure_w = object_w,
+                                      figure_h = object_h,
                                       legend = TRUE,
                                       legend_text = legend_text,
                                       style_ref = style_ref)
@@ -618,6 +679,145 @@
 
   }
 
+#' Insert a link.
+#'
+#' @description Inserts a link based on an mdlink object
+#' (\code{\link{mdlink}}) into an R markdown file or prints it into the
+#' standard output.
+#' @param object an mdlink object (\code{\link{mdlink}}).
+#' @param title a string to be used as a link title, defaults to the `ref_name`
+#' of the mdlink object.
+#' @param html logical, should the link be in a HTML format? Defaults to FALSE.
+#' @param file a file to which the chunks are written. If the file exists
+#' already, it will be appended or overwritten.
+#' If NULL, the text is printed in the console and copied into the clipboard.
+#' @param append logical, should the output file be appended?
+#' @param ... extra arguments, currently none.
+#' @details To enable the clipboard access, you may need to set the CLIPR_ALLOW
+#' environment variable to TRUE, as described for
+#' \code{\link[clipr]{write_clip}}.
+#' @export insert.mdlink
+#' @export
+
+  insert.mdlink <- function(object,
+                            title = object$ref_name,
+                            html = FALSE,
+                            file = NULL,
+                            append = TRUE, ...) {
+
+    ## entry control -----
+
+    stopifnot(is_mdlink(object))
+    stopifnot(is.logical(append))
+    stopifnot(is.character(title))
+    stopifnot(is.logical(html))
+
+    if(!is.null(file)) {
+
+      if(!file.exists(file)) warning('The target_path does not exist, a new will be created.',
+                                     call. = FALSE)
+
+    }
+
+    ## link text -------
+
+    if(!html) {
+
+      lk_string <-
+        paste0('[', title, '](', object$URL, ')')
+
+    } else {
+
+      lk_string <-
+        paste0('<a href = "', object$URL, '">',
+               title, '</a>')
+
+    }
+
+    ## output -------
+
+    if(is.null(file)) {
+
+      cat(lk_string)
+
+      try(clipr::write_clip(content = lk_string,
+                            object_type = 'character',
+                            breaks = '\n'),
+          silent = TRUE)
+
+      return(invisible(lk_string))
+
+    } else {
+
+      cat(lk_string,
+          file = file,
+          append = append,
+          fill = FALSE)
+
+      return(invisible(lk_string))
+
+    }
+
+  }
+
+#' Insert an HTML element.
+#'
+#' @description Inserts a HTML elemen based on an mdhtml object
+#' (\code{\link{mdhtml}}) into an R markdown file or prints it into the
+#' standard output.
+#' @param object an mdhtml object (\code{\link{mdhtml}}).
+#' @param file a file to which the chunks are written. If the file exists
+#' already, it will be appended or overwritten.
+#' If NULL, the text is printed in the console and copied into the clipboard.
+#' @param append logical, should the output file be appended?
+#' @param ... extra arguments, currently none.
+#' @details To enable the clipboard access, you may need to set the CLIPR_ALLOW
+#' environment variable to TRUE, as described for
+#' \code{\link[clipr]{write_clip}}.
+#' @export insert.mdhtml
+#' @export
+
+  insert.mdhtml <- function(object,
+                            file = NULL,
+                            append = TRUE, ...) {
+
+    ## entry control -----
+
+    stopifnot(is_mdhtml(object))
+    stopifnot(is.logical(append))
+
+    if(!is.null(file)) {
+
+      if(!file.exists(file)) warning('The target_path does not exist, a new will be created.',
+                                     call. = FALSE)
+
+    }
+
+    ## output -------
+
+    if(is.null(file)) {
+
+      cat(object)
+
+      try(clipr::write_clip(content = object,
+                            object_type = 'character',
+                            breaks = '\n'),
+          silent = TRUE)
+
+      return(invisible(object))
+
+    } else {
+
+      cat(object,
+          file = file,
+          append = append,
+          fill = FALSE)
+
+      return(invisible(object))
+
+    }
+
+  }
 
 # Markdown inline citations -------
 

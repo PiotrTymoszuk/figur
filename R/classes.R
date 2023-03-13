@@ -160,6 +160,80 @@
 
   }
 
+# link and html tag S3 object constructors -------
+
+#' Generate an mdlink object.
+#'
+#' @description Generates an mdlink object which holds together
+#' the URL and tile of a link.
+#' @details Particularly useful for link used multiple times
+#' in an Rmarkdown document. You may easily insert them (e.g. via copy and paste)
+#' by calling the `insert()` method.
+#' @param x a URL
+#' @param ref_name a link title
+#' @export
+
+  mdlink <- function(x, ref_name) {
+
+    if(!is.character(x)) {
+
+      stop("'x' hast to be a character.", call. = FALSE)
+
+    }
+
+    if(!is.character(ref_name)) {
+
+      stop("'ref_name' hast to be a character.", call. = FALSE)
+
+    }
+
+    structure(list(URL = x,
+                   ref_name = ref_name),
+              class = 'mdlink')
+
+  }
+
+#' Generate an mdhtml object.
+#'
+#' @description Generates an mdhtml object which stores a HTML or XTML tag
+#' @details Particularly useful for custom HTML element used multiple times
+#' in an Rmarkdown document. You may easily insert them (e.g. via copy and paste)
+#' by calling the `insert()` method. Technically,
+#' it requires a string starting with an `<tag>` or `<tag />` and ending with
+#' an `</tag>` or `<tag />`.
+#' @param x a string to be stored as a HTML or XTML tag, see the details!
+#' @export
+
+  mdhtml <- function(x) {
+
+    ## entry control ---------
+
+    if(!is.character(x)) {
+
+      stop("'x' hast to be a character.", call. = FALSE)
+
+    }
+
+    if(!stringi::stri_detect(x, regex = '^<.*>')) {
+
+      stop("The string provided as 'x' is unlikely a valid HTML tag.",
+           call. = FALSE)
+
+    }
+
+    if(!stringi::stri_detect(x, regex = '(</.*>)|(<.*\\s{1}/>)$')) {
+
+      stop("The string provided as 'x' is unlikely a valid HTML tag.",
+           call. = FALSE)
+
+    }
+
+    structure(x,
+              class = c('character', 'mdhtml'))
+
+
+  }
+
 # S3 class checker -----
 
 #' Check for a figure object.
@@ -177,7 +251,7 @@
 #' Check for a mdtable object.
 #'
 #' @param x An object to test
-#' @return Logical, TRUE if the 'figure' class object
+#' @return Logical, TRUE if the 'mdtable' class object
 #' @export
 
   is_mdtable <- function(x) {
@@ -189,12 +263,36 @@
 #' Check for a mdexpr object.
 #'
 #' @param x An object to test
-#' @return Logical, TRUE if the 'figure' class object
+#' @return Logical, TRUE if the 'mdexpr' class object
 #' @export
 
   is_mdexpr <- function(x) {
 
     inherits(x, 'mdexpr')
+
+  }
+
+#' Check for a mdlink object.
+#'
+#' @param x An object to test
+#' @return Logical, TRUE if the 'mdlink' class object
+#' @export
+
+  is_mdlink <- function(x) {
+
+    inherits(x, 'mdlink')
+
+  }
+
+#' Check for a mdhtml object.
+#'
+#' @param x An object to test
+#' @return Logical, TRUE if the 'mdhtml' class object
+#' @export
+
+  is_mdhtml <- function(x) {
+
+    inherits(x, 'mdhtml')
 
   }
 

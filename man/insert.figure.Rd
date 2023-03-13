@@ -10,6 +10,7 @@
   html = FALSE,
   style_ref = "legend",
   append = TRUE,
+  relative_dim = FALSE,
   ...
 )
 }
@@ -26,6 +27,10 @@ If NULL, the text is printed in the console and copied into the clipboard.}
 the HTML output.}
 
 \item{append}{logical, should the output file be appended?}
+
+\item{relative_dim}{logical, should the figure dimensions be inserted
+as a call to an unit-converting function? If FALSE, fixed numeric dimensions
+are inserted into the code chunk.}
 
 \item{...}{extra arguments, currently none.}
 }

@@ -80,7 +80,7 @@ __Figure \@ref(fig:fig-fig-cyl). Cylinder count of the MT cars__
 _test legend for figure 2_
 
 
-```{r fig-fig-panel, fig.width = 7.086614166, fig.height = 3.543307083, fig.cap = 'Summary results of the analysis'}
+```{r fig-fig-panel, fig.width = figur::convert(report_plots$panel, to = 'in')$w, fig.height = figur::convert(report_plots$panel, to = 'in')$h, fig.cap = 'Summary results of the analysis'}
 
 report_plots$panel$plot
 
@@ -91,6 +91,29 @@ report_plots$panel$plot
 <br>
 summary analysis panel
 </p>
+
+# Some test links and HTML elements
+
+Inserted as a HTML element:
+
+<a href = "http://web4dummy.um-gallery.com/s02.1html-tag.html">XTML tag reference</a>
+
+or as a markdown with some formatting:
+
+[_test reference_](http://web4dummy.um-gallery.com/s02.1html-tag.html)
+
+<hr />
+
+<p style = "color: maroon">This text was inserted as a HTML element</p>
+
+<hr />
+
+
+
+
+
+
+
 
 
 

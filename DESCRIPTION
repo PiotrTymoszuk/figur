@@ -28,4 +28,4 @@ Authors@R:
            role = c("aut", "cre"),
            email = "piotr.s.tymoszuk@gmail.com",
            comment = c(ORCID = "0000-0002-0398-6034"))
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.1

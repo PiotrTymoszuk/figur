@@ -8,8 +8,10 @@
 #' @param figure_call call to a figure object.
 #' @param ref_name name of the figure chunk in the R markdown output.
 #' @param caption figure caption.
-#' @param figure_w figure width in inches.
-#' @param figure_h figure height in inches.
+#' @param figure_w figure width in inches or a call to a function
+#' returning a numeric provided as a character.
+#' @param figure_h figure height in inches or a call to a function
+#' returning a numeric provided as a character.
 #' @param legend logical, should a text with the figure reference in bold be included below
 #' the figure chunk?
 #' @param legend_text detailed legend text.
@@ -24,8 +26,6 @@
                              legend_text = '<<legend>>') {
 
     stopifnot(is.logical(legend))
-    stopifnot(is.numeric(figure_w))
-    stopifnot(is.numeric(figure_h))
 
     fig_label <- rlang::as_label(figure_call)
 
@@ -80,8 +80,6 @@
                              style_ref = 'legend') {
 
     stopifnot(is.logical(legend))
-    stopifnot(is.numeric(figure_w))
-    stopifnot(is.numeric(figure_h))
 
     ## heading
 
@@ -332,7 +330,7 @@
 
     }
 
-    if(length(legend_text > 1)) {
+    if(length(legend_text) > 1) {
 
       if(length(legend_text) != length(inp_obj)) {
 
