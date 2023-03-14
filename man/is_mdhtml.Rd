@@ -10,7 +10,7 @@ is_mdhtml(x)
 \item{x}{An object to test}
 }
 \value{
-Logical, TRUE if the 'mdhtml' class object
+Logical, TRUE if the 'mdhtml' class object provided.
 }
 \description{
 Check for a mdhtml object.

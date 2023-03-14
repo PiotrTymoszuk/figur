@@ -17,6 +17,9 @@
 #' @param legend optional, text to be presented in the extended figure legend.
 #' @details ref_name: needs to be a valid markdown/bookdown reference name. By
 #' default, spaces, slashes and underscores are silently turned into '-'.
+#' You may easily insert the read-to-use figure object code chunk into your
+#' Rmarkdown document with the `insert()` method or reference it in the text
+#' by calling `refer()`.
 #' @return An object of class 'figure'
 #' @export
 
@@ -66,6 +69,9 @@
 #' The mdtable inherits from data frame most of its methods.
 #' ref_name: needs to be a valid markdown/bookdown reference name. By
 #' default, spaces, slashes and underscores are silently turned into '-'.
+#' You may easily insert the read-to-use table object code chunk into your
+#' Rmarkdown document with the `insert()` method or reference it in the text
+#' by calling `refer()`.
 #' @param x a data frame or tibble.
 #' @param label the final file name.
 #' @param ref_name name of the reference to the table,
@@ -106,10 +112,12 @@
 #' @details Throws any errors and warnings encountered during the evaluation.
 #' In addition checks if the result is NULL, NA or Inf and raises a warning
 #' if this is the case.
+#' You may easily insert the read-to-use R code chunk stored in the mdexpr
+#' object into your Rmarkdown document with the `insert()` or `refer()` method.
 #' @param x an expression.
 #' @param ref_name name of the reference to the code block,
 #' used mainly in markdown documents (waiting for a bookdown implementation).
-#' @param caption text to be presented in the table caption, currently
+#' @param caption text to be presented in the code chunk caption, currently
 #' no implementation in bookdown
 #' (https://github.com/rstudio/bookdown/issues/238)
 #' @param ... extra arguments, currently none.
@@ -168,7 +176,7 @@
 #' the URL and tile of a link.
 #' @details Particularly useful for link used multiple times
 #' in an Rmarkdown document. You may easily insert them (e.g. via copy and paste)
-#' by calling the `insert()` method.
+#' by calling the `insert()` or `refer()` method.
 #' @param x a URL
 #' @param ref_name a link title
 #' @export
@@ -198,7 +206,7 @@
 #' @description Generates an mdhtml object which stores a HTML or XTML tag
 #' @details Particularly useful for custom HTML element used multiple times
 #' in an Rmarkdown document. You may easily insert them (e.g. via copy and paste)
-#' by calling the `insert()` method. Technically,
+#' by calling the `insert()` or `refer()` method. Technically,
 #' it requires a string starting with an `<tag>` or `<tag />` and ending with
 #' an `</tag>` or `<tag />`.
 #' @param x a string to be stored as a HTML or XTML tag, see the details!
@@ -234,6 +242,73 @@
 
   }
 
+# text S3 object constructors --------
+
+#' Create an mdtext container.
+#'
+#' @description Creates a container for custom text to be (re-) used in the
+#' Rmarkdown document.
+#' @details Storing some fixed text parts used multiple times in the Rmarkdown
+#' document (e.g. parts of figure legends) as mdtext provides a smarter
+#' alternative to the tarditional 'copy-paste' approach.
+#' You may insert the text chunk in your document by calling the
+#' `insert()` or `refer()` method.
+#' @param x a string to be stored as mdtext object.
+#' @export
+
+  mdtext <- function(x) {
+
+    x <- as.character(x)
+
+    structure(x,
+              class = c('character', 'mdtext'))
+
+
+  }
+
+# mdbib object constructor -------
+
+#' Create an mdbib object storing document's bibliography
+#'
+#' @description Creates an mdbib object storing bibliography information
+#' (preferably derived from a BibTex file). Takes a data frame or a similar
+#' structure. The variable named 'BIBTEXKEY' is required.
+#' @details The object is built on the top of a data frame and inherits
+#' multiple functions/methods from the 'data_frame' class.
+#' @param x a data frame. It has to contain the 'BIBTEXKEY' variable.
+#' @param ... additional arguments, currently none defined.
+#' @return an object of the 'mdbib' class.
+#' @export
+
+  mdbib <- function(x, ...) {
+
+    ## entry control --------
+
+    if(!is.data.frame(x)) {
+
+      x <- try(as.data.frame(x), silent = TRUE)
+
+      if(inherits(x, 'try-error')) {
+
+        stop("'x' cannot be converted to a data frame.", call. = FALSE)
+
+      }
+
+    }
+
+    if(!'BIBTEXKEY' %in% names(x)) {
+
+      stop("'x' has to have a column named 'BIBTEXKEY'")
+
+    }
+
+    ## output -------
+
+    structure(x,
+              class = c(class(x), 'mdbib'))
+
+  }
+
 # S3 class checker -----
 
 #' Check for a figure object.
@@ -251,7 +326,7 @@
 #' Check for a mdtable object.
 #'
 #' @param x An object to test
-#' @return Logical, TRUE if the 'mdtable' class object
+#' @return Logical, TRUE if the 'mdtable' class object provided.
 #' @export
 
   is_mdtable <- function(x) {
@@ -263,7 +338,7 @@
 #' Check for a mdexpr object.
 #'
 #' @param x An object to test
-#' @return Logical, TRUE if the 'mdexpr' class object
+#' @return Logical, TRUE if the 'mdexpr' class object provided.
 #' @export
 
   is_mdexpr <- function(x) {
@@ -275,7 +350,7 @@
 #' Check for a mdlink object.
 #'
 #' @param x An object to test
-#' @return Logical, TRUE if the 'mdlink' class object
+#' @return Logical, TRUE if the 'mdlink' class object provided.
 #' @export
 
   is_mdlink <- function(x) {
@@ -287,12 +362,36 @@
 #' Check for a mdhtml object.
 #'
 #' @param x An object to test
-#' @return Logical, TRUE if the 'mdhtml' class object
+#' @return Logical, TRUE if the 'mdhtml' class object provided.
 #' @export
 
   is_mdhtml <- function(x) {
 
     inherits(x, 'mdhtml')
+
+  }
+
+#' Check for a mdtext object.
+#'
+#' @param x An object to test
+#' @return Logical, TRUE if the 'mdtext' class object provided.
+#' @export
+
+  is_mdtext <- function(x) {
+
+    inherits(x, 'mdtext')
+
+  }
+
+#' Check for a mdbib object.
+#'
+#' @param x An object to test
+#' @return Logical, TRUE if the 'mdbib' class object provided.
+#' @export
+
+  is_mdbib <- function(x) {
+
+    inherits(x, 'mdbib')
 
   }
 

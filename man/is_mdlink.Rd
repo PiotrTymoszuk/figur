@@ -10,7 +10,7 @@ is_mdlink(x)
 \item{x}{An object to test}
 }
 \value{
-Logical, TRUE if the 'mdlink' class object
+Logical, TRUE if the 'mdlink' class object provided.
 }
 \description{
 Check for a mdlink object.

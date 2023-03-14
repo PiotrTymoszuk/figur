@@ -89,4 +89,16 @@
 
   }
 
+# mdbib ------
+
+#' @rdname mdbib
+#' @export as_mdbib.data.frame
+#' @export
+
+  as_mdbib.data.frame <- function(x, ...) {
+
+    mdbib(x, ...)
+
+  }
+
 # END ------

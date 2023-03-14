@@ -12,7 +12,7 @@ mdexpr(x, ref_name = NULL, caption = NULL, ...)
 \item{ref_name}{name of the reference to the code block,
 used mainly in markdown documents (waiting for a bookdown implementation).}
 
-\item{caption}{text to be presented in the table caption, currently
+\item{caption}{text to be presented in the code chunk caption, currently
 no implementation in bookdown
 (https://github.com/rstudio/bookdown/issues/238)}
 
@@ -30,6 +30,8 @@ into an R markdown document.
 Throws any errors and warnings encountered during the evaluation.
 In addition checks if the result is NULL, NA or Inf and raises a warning
 if this is the case.
+You may easily insert the read-to-use R code chunk stored in the mdexpr
+object into your Rmarkdown document with the `insert()` or `refer()` method.
 
 ref_name: needs to be a valid markdown/bookdown reference name. By
 default, spaces, slashes and underscores are silently turned into '-'.

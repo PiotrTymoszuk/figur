@@ -43,4 +43,7 @@ rendered graphic dimensions and markdown references in one figure object.
 \details{
 ref_name: needs to be a valid markdown/bookdown reference name. By
 default, spaces, slashes and underscores are silently turned into '-'.
+You may easily insert the read-to-use figure object code chunk into your
+Rmarkdown document with the `insert()` method or reference it in the text
+by calling `refer()`.
 }

@@ -15,7 +15,7 @@ Generates an mdhtml object which stores a HTML or XTML tag
 \details{
 Particularly useful for custom HTML element used multiple times
 in an Rmarkdown document. You may easily insert them (e.g. via copy and paste)
-by calling the `insert()` method. Technically,
+by calling the `insert()` or `refer()` method. Technically,
 it requires a string starting with an `<tag>` or `<tag />` and ending with
 an `</tag>` or `<tag />`.
 }

@@ -13,7 +13,7 @@
 
   as_figure <- function(x, ...) {
 
-    UseMethod('as_figure', x)
+    UseMethod('as_figure')
 
   }
 
@@ -28,7 +28,7 @@
 
   as_mdtable <- function(x, ...) {
 
-    UseMethod('as_mdtable', x)
+    UseMethod('as_mdtable')
 
   }
 
@@ -38,12 +38,27 @@
 #' to an mdexpr instance.
 #' @param x an object.
 #' @param ... extra arguments passed to methods.
-#' @return an object of mdtable class (\code{\link{mdtable}})
+#' @return an object of mdexpr class (\code{\link{mdexpr}})
 #' @export
 
   as_mdexpr <- function(x, ...) {
 
-    UseMethod('as_mdexpr', x)
+    UseMethod('as_mdexpr')
+
+  }
+
+#' Convert an object to an mdbib class instance.
+#'
+#' @description Converts an object (usually an expression)
+#' to an mdbib instance.
+#' @param x an object.
+#' @param ... extra arguments passed to methods.
+#' @return an object of mdbib class (\code{\link{mdbib}})
+#' @export
+
+  as_mdbib <- function(x, ...) {
+
+    UseMethod('as_mdbib')
 
   }
 
@@ -58,7 +73,7 @@
 
   extract <- function(x, ...) {
 
-    UseMethod('extract', x)
+    UseMethod('extract')
 
   }
 
@@ -71,7 +86,7 @@
 
   convert <- function(x, ...) {
 
-    UseMethod('convert', x)
+    UseMethod('convert')
 
   }
 
@@ -84,7 +99,7 @@
 
   height <- function(x, ...) {
 
-    UseMethod('height', x)
+    UseMethod('height')
 
   }
 
@@ -110,7 +125,7 @@
 
   `height<-` <- function(x, ...) {
 
-    UseMethod('height<-', x)
+    UseMethod('height<-')
 
   }
 
@@ -123,7 +138,7 @@
 
   `width<-` <- function(x, ...) {
 
-    UseMethod('width<-', x)
+    UseMethod('width<-')
 
   }
 
@@ -169,6 +184,21 @@
   pickle <- function(object, ...) {
 
     UseMethod('pickle', object)
+
+  }
+
+# searching ------
+
+#' Search an object by a regular expression.
+#'
+#' @description Searches the content of an object with a regular expression.
+#' @param object an object.
+#' @param ... extra arguments passed to methods.
+#' @export
+
+  reglook <- function(object, ...) {
+
+    UseMethod('reglook')
 
   }
 

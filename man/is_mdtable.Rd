@@ -10,7 +10,7 @@ is_mdtable(x)
 \item{x}{An object to test}
 }
 \value{
-Logical, TRUE if the 'mdtable' class object
+Logical, TRUE if the 'mdtable' class object provided.
 }
 \description{
 Check for a mdtable object.

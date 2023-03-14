@@ -18,5 +18,5 @@ the URL and tile of a link.
 \details{
 Particularly useful for link used multiple times
 in an Rmarkdown document. You may easily insert them (e.g. via copy and paste)
-by calling the `insert()` method.
+by calling the `insert()` or `refer()` method.
 }

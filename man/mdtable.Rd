@@ -29,4 +29,7 @@ and caption attributes.
 The mdtable inherits from data frame most of its methods.
 ref_name: needs to be a valid markdown/bookdown reference name. By
 default, spaces, slashes and underscores are silently turned into '-'.
+You may easily insert the read-to-use table object code chunk into your
+Rmarkdown document with the `insert()` method or reference it in the text
+by calling `refer()`.
 }

@@ -181,7 +181,7 @@
 
   insert(report_plots$panel, html = TRUE, relative_dim = TRUE)
 
-# Links and HTML elements ---------
+# Links, HTML elements and text ---------
 
   xtml_ref <-
     mdlink('http://web4dummy.um-gallery.com/s02.1html-tag.html',
@@ -193,11 +193,41 @@
   cmm_sep <-
     mdhtml('<hr />')
 
+  test_txt_element <-
+    mdtext('This sentence was created with the new `mdtext()` function!')
+
   insert(xtml_ref, html = FALSE, title = '_test reference_')
 
   insert(cmm_test_p)
 
   insert(cmm_sep)
+
+# Citations -------
+
+  test_bib <- read_bib('./test/test_biblio.bib')
+
+  mol_bib <- read_bib('./test/mol_biblio.bib')
+
+  test_bib %>%
+    reglook(keys = 'AUTHOR',
+            regex = 'Wickham|Wilke') %>%
+    refer
+
+  test_bib %>%
+    reglook(keys = NULL,
+            regex = 'Gagolewski|Kassambara') %>%
+    refer
+
+  mol_bib %>%
+    reglook(regex = '(The Cancer)|(GSE\\d+)') %>%
+    refer
+
+  bib2df::bib2df('./test/mol_biblio.bib') %>%
+    reglook(regex = '(The Cancer)|(GSE\\d+)')
+
+  test_bib$AUTHOR %>%
+    reglook(regex = 'Gagolewski|Kassambara')
+
 
 # final html report ------
 

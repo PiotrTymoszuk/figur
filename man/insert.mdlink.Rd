@@ -2,9 +2,19 @@
 % Please edit documentation in R/oop.R
 \name{insert.mdlink}
 \alias{insert.mdlink}
-\title{Insert a link.}
+\alias{refer.mdlink}
+\title{Insert/refer a link.}
 \usage{
 \method{insert}{mdlink}(
+  object,
+  title = object$ref_name,
+  html = FALSE,
+  file = NULL,
+  append = TRUE,
+  ...
+)
+
+\method{refer}{mdlink}(
   object,
   title = object$ref_name,
   html = FALSE,

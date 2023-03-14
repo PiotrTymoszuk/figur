@@ -679,7 +679,9 @@
 
   }
 
-#' Insert a link.
+# Inserting and referencing links and HTML elements --------
+
+#' Insert/refer a link.
 #'
 #' @description Inserts a link based on an mdlink object
 #' (\code{\link{mdlink}}) into an R markdown file or prints it into the
@@ -760,9 +762,27 @@
 
   }
 
-#' Insert an HTML element.
+#' @rdname insert.mdlink
+#' @export refer.mdlink
+#' @export
+
+  refer.mdlink <- function(object,
+                           title = object$ref_name,
+                           html = FALSE,
+                           file = NULL,
+                           append = TRUE, ...) {
+
+    insert.mdlink(object = object,
+                  title = title,
+                  html = html,
+                  file = file,
+                  append = append, ...)
+
+  }
+
+#' Insert/refer an HTML element.
 #'
-#' @description Inserts a HTML elemen based on an mdhtml object
+#' @description Inserts a HTML element based on an mdhtml object
 #' (\code{\link{mdhtml}}) into an R markdown file or prints it into the
 #' standard output.
 #' @param object an mdhtml object (\code{\link{mdhtml}}).
@@ -814,6 +834,215 @@
           fill = FALSE)
 
       return(invisible(object))
+
+    }
+
+  }
+
+#' @rdname insert.mdhtml
+#' @export refer.mdhtml
+#' @export
+
+  refer.mdhtml <- function(object,
+                           file = NULL,
+                           append = TRUE, ...) {
+
+    insert.mdhtml(object = object,
+                  file = file,
+                  append = append, ...)
+
+  }
+
+# Inserting and referencing text -------
+
+#' Insert/refer a text element.
+#'
+#' @description Inserts a text element based on an mdtext object
+#' (\code{\link{mdtext}}) into an R markdown file or prints it into the
+#' standard output.
+#' @param object an mdtext object (\code{\link{mdtext}}).
+#' @param file a file to which the chunk will be written. If the file exists
+#' already, it will be appended or overwritten.
+#' If NULL, the text is printed in the console and copied into the clipboard.
+#' @param append logical, should the output file be appended?
+#' @param ... extra arguments, currently none.
+#' @details To enable the clipboard access, you may need to set the CLIPR_ALLOW
+#' environment variable to TRUE, as described for
+#' \code{\link[clipr]{write_clip}}.
+#' @export insert.mdtext
+#' @export
+
+  insert.mdtext <- function(object,
+                            file = NULL,
+                            append = TRUE, ...) {
+
+    ## entry control -----
+
+    stopifnot(is_mdtext(object))
+    stopifnot(is.logical(append))
+
+    if(!is.null(file)) {
+
+      if(!file.exists(file)) warning('The target_path does not exist, a new will be created.',
+                                     call. = FALSE)
+
+    }
+
+    ## output -------
+
+    if(is.null(file)) {
+
+      cat(object)
+
+      try(clipr::write_clip(content = object,
+                            object_type = 'character',
+                            breaks = '\n'),
+          silent = TRUE)
+
+      return(invisible(object))
+
+    } else {
+
+      cat(object,
+          file = file,
+          append = append,
+          fill = FALSE)
+
+      return(invisible(object))
+
+    }
+
+  }
+
+#' @rdname insert.mdtext
+#' @export refer.mdtext
+#' @export
+
+  refer.mdtext <- function(object,
+                           file = NULL,
+                           append = TRUE, ...) {
+
+    insert.mdtext(object = object,
+                  file = file,
+                  append = append, ...)
+
+  }
+
+# Searching and referencing bibliography -------
+
+#' Search bibliography by a regular expression.
+#'
+#' @description Searches the content of a bibliography object of the 'mdbib'
+#' class. In combination with the \code{\link{refer.mdbib}} method,
+#' it can be used to search a bibliography and paste the selected citations
+#' into an Rmarkdown document.
+#' @details Technically, the search is accomplished by the
+#' \code{\link[stringi]{stri_detect}} function.
+#' @param object an mdbib object (\code{\link{mdbib}}).
+#' @param regex a regular expression.
+#' @param keys columns of the mdbib object to be searched for the regex.
+#' Defaults to NULL, which means that all columns will be looked up.
+#' @param multiple ignored when a single search key is provided.
+#' It describes how searching results from multiple mdbib columns will
+#' be handled. 'OR' (default) specifies that the multiply column search results
+#' will be merged by logical sum, for 'AND' they will be merged by logical
+#' intersection.
+#' @param ... extra arguments, currently none.
+#' @return a mdbib object.
+#' @export reglook.mdbib
+#' @export
+
+  reglook.mdbib <- function(object,
+                            regex,
+                            keys = NULL,
+                            multiple = c('OR', 'AND')) {
+
+    stopifnot(is_mdbib(object))
+
+    NextMethod()
+
+  }
+
+#' Reference to bibliography.
+#'
+#' @description Inserts a citation to a all entries of a bibliography object
+#' of the 'mdbib' class. In combination with the \code{\link{reglook.mdbib}}
+#' or the tidyverse's `filter()` method, it can be used to search
+#' a bibliography and paste the selected citations into an Rmarkdown document.
+#' @details Creates Rmarkdown style citations: `[@citation1; @citation2; ...]`.
+#' @param object an mdbib object (\code{\link{mdbib}}).
+#' @param file a file to which the chunk will be written. If the file exists
+#' already, it will be appended or overwritten.
+#' If NULL, the text is printed in the console and copied into the clipboard.
+#' @param append logical, should the output file be appended?
+#' @param ... extra arguments, currently none.
+#' @details To enable the clipboard access, you may need to set the CLIPR_ALLOW
+#' environment variable to TRUE, as described for
+#' \code{\link[clipr]{write_clip}}.
+#' @export refer.mdbib
+#' @export
+
+  refer.mdbib <- function(object,
+                          file = NULL,
+                          append = TRUE, ...) {
+
+    ## entry control -----
+
+    stopifnot(is_mdbib(object))
+    stopifnot(is.logical(append))
+
+    if(!is.null(file)) {
+
+      if(!file.exists(file)) warning('The target_path does not exist, a new will be created.',
+                                     call. = FALSE)
+
+    }
+
+    if(nrow(object) == 0) {
+
+      warning("The bibliography is empty!", call. = FALSE)
+
+      return(NULL)
+
+    }
+
+    ## citation text -------
+
+    if(nrow(object) == 1) {
+
+      cit_txt <- paste0('[@', object$BIBTEXKEY[1], ']')
+
+    } else {
+
+      cit_txt <- paste0('@', object$BIBTEXKEY)
+
+      cit_txt <- paste(cit_txt, collapse = '; ')
+
+      cit_txt <- paste0('[', cit_txt, ']')
+
+    }
+
+    ## output -------
+
+    if(is.null(file)) {
+
+      cat(cit_txt)
+
+      try(clipr::write_clip(content = cit_txt,
+                            object_type = 'character',
+                            breaks = '\n'),
+          silent = TRUE)
+
+      return(invisible(cit_txt))
+
+    } else {
+
+      cat(cit_txt,
+          file = file,
+          append = append,
+          fill = FALSE)
+
+      return(invisible(cit_txt))
 
     }
 
