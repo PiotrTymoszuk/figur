@@ -231,6 +231,56 @@ The code chunk is inserted as an inline element with the `refer()` call and as a
 ```
    
 </details>
+   
+<details>
+   <summary>Bibliography</summary>
+   
+ ## Bibliography
+   
+In my experience, a combination of an external citation manager and R Studio is not the most efficient one. The `mdbib` object storing the bibliography derived from the most common BibTex format and enabling for search via regular expression and referencing directly from R can make management of literature references more straightforward. 
+
+To create a `mdbib` object, just read your BibTex file from the disc with `read_bib()`:
+  
+```r
+   
+mol_bib <- read_bib('./test/mol_biblio.bib')
+           
+>  mol_bib
+# A tibble: 10 × 33
+   CATEGORY BIBTEXKEY ADDRESS ANNOTE AUTHOR BOOKT…¹ CHAPTER CROSS…² EDITION EDITOR HOWPU…³ INSTI…⁴ JOURNAL KEY   MONTH NOTE  NUMBER
+ * <chr>    <chr>     <chr>   <chr>  <list> <chr>   <chr>   <chr>   <chr>   <list> <chr>   <chr>   <chr>   <chr> <chr> <chr> <chr> 
+ 1 ARTICLE  Cavalier… NA      NA     <chr>  NA      NA      NA      NA      <chr>  NA      NA      JCO pr… NA    nov   NA    5     
+ 2 ARTICLE  Wu2020    NA      NA     <chr>  NA      NA      NA      NA      <chr>  NA      NA      Molecu… NA    jun   NA    1     
+ 3 ARTICLE  Ding2022  NA      NA     <chr>  NA      NA      NA      NA      <chr>  NA      NA      Fronti… NA    feb   NA    NA    
+ 4 ARTICLE  Wichmann… NA      NA     <chr>  NA      NA      NA      NA      <chr>  NA      NA      Intern… NA    dec   NA    12    
+ 5 ARTICLE  Keck2015  NA      NA     <chr>  NA      NA      NA      NA      <chr>  NA      NA      Clinic… NA    feb   NA    4     
+ 6 ARTICLE  Walter20… NA      NA     <chr>  NA      NA      NA      NA      <chr>  NA      NA      PloS o… NA    feb   NA    2     
+ 7 ARTICLE  VanHooff… NA      NA     <chr>  NA      NA      NA      NA      <chr>  NA      NA      Journa… NA    nov   NA    33    
+ 8 ARTICLE  Lawrence… NA      NA     <chr>  NA      NA      NA      NA      <chr>  NA      NA      Nature… NA    jan   NA    7536  
+ 9 ARTICLE  Mermel20… NA      NA     <chr>  NA      NA      NA      NA      <chr>  NA      NA      Genome… NA    apr   NA    4     
+10 ARTICLE  Benjamin… NA      NA     <chr>  NA      NA      NA      NA      <chr>  NA      NA      bioRxiv NA    dec   NA    NA    
+# … with 16 more variables: ORGANIZATION <chr>, PAGES <chr>, PUBLISHER <chr>, SCHOOL <chr>, SERIES <chr>, TITLE <chr>, TYPE <chr>,
+#   VOLUME <chr>, YEAR <dbl>, ABSTRACT <chr>, DOI <chr>, ISSN <chr>, KEYWORDS <chr>, MENDELEY.TAGS <chr>, PMID <chr>, URL <chr>,
+#   and abbreviated variable names ¹​BOOKTITLE, ²​CROSSREF, ³​HOWPUBLISHED, ⁴​INSTITUTION
+# ℹ Use `colnames()` to see all variable names
+   
+```
+Technically, the `mdbib` instance is nothing else as a data frame or tibble which may be searched with your favourite tool set like tidyverse's `filter()`. 
+The `figur` package offers also a possibilty to search with regular expressions via `reglook()`. Finally, the citations can be easily pasted into your Rmarkdown document by calling `refer()`. The whole procedure works particularly caompact in a pipeline:
+   
+```r
+   
+ ## be default the output is copied into the clipboard:
+   
+   mol_bib %>%
+    reglook(regex = '(The Cancer)|(GSE\\d+)') %>%
+    refer
+   
+  # [@Cavalieri2021; @Lawrence2015]
+   
+```
+   
+</details>
 
 ## Terms of use
 
