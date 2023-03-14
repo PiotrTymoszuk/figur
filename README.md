@@ -138,7 +138,7 @@ Finally, by calling `refer()` a Rmarkdown/bookdown-compatible reference to the f
 
 ```r
 
-## reference
+## referencing
 
 refer(fig_list$fig1)
 
@@ -154,13 +154,81 @@ pickle(fig_list$fig1)
 
 ### Handling data frames
 
+Basically, any data frame may be converted to an `mdtable` object, which as in case of graph-storing `figur` instance, bundles the data frame with its later reference and caption in the Rmarkdown document:
    
+```r
+   
+   test_tbl <- as_mdtable(mtcars,
+                         label = 'mt_cars',
+                         ref_name = 'mt_cars',
+                         caption = 'Car data')
+               
+> head(test_tbl)
+                   mpg cyl disp  hp drat    wt  qsec vs am gear carb
+Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
+Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
+Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1
+   
+   
+```
+Insertion of the corresponding chunk into the Rmarkdown document and referencing is analogically done with the `insert()` and `refer()` methods. By default, the output is copied to the clipboard:
+   
+```r
+   
+> insert(test_tbl)
+# ```{r tab-mt-cars, tab.cap = 'Car data'}
+
+# flextable::flextable(test_tbl)
+
+# ```
+
+> refer(test_tbl)
+Table \@ref(tab:tab-mt-cars)
+   
+```   
 </details>
 
 <details>
    <summary>Handling R code</summary>
    
 ### Handling R code
+   
+Management of R code in Rmarkdown may pose a challenge, especially in lengthy documents with multiple repeating inline code elements. Additionally, debugging may consume lots of time. A smarter alternative to the 'copy-paste' approach and tesing the code in the console is provided with the `mdexpr` object. Virtually any R expression may be wrapped with `mdexpr()` which stores the text code representation and evaluation result. By this means, any evaluation errors are directly reported:
+   
+```r
+   
+## error-free evaluation
+   
+test_mdexpr <- mdexpr(nrow(mtcars), ref_name = 'mtcar_size')
+                  
+> test_mdexpr
+mdexpr: {nrow(mtcars)} = 32
+   
+## errors are raised at creation of the mdexpr:
+   
+> mdexpr(mtcars$mpg[1, 2], ref_name = 'mtcar_size')
+Error in mtcars$mpg[1, 2] : incorrect number of dimensions                
+     
+```
+
+The code chunk is inserted as an inline element with the `refer()` call and as a multi-line chunk with the `insert()` method. By default, the output is copied into the clipboard:
+   
+```r
+   
+> refer(test_mdexpr)
+# `r nrow(mtcars)`
+   
+> insert(test_mdexpr)
+#```{r mtcar-size}
+
+#nrow(mtcars)
+
+#```
+   
+```
    
 </details>
 
