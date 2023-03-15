@@ -284,7 +284,7 @@ The `figur` package offers also a possibilty to search with regular expressions 
 
 ## Terms of use
 
-The package is available under the [GPL-3 license](https://github.com/PiotrTymoszuk/figur/blob/main/LICENSE).
+The package is available under a [GPL-3 license](https://github.com/PiotrTymoszuk/figur/blob/main/LICENSE).
 
 ## Contact
 
