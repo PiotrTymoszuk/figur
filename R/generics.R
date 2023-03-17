@@ -64,24 +64,7 @@
 
 # modification of object features -----
 
-#' Extract object features.
-#'
-#' @param x An object of interest
-#' @param ... Arguments passed to specific methods
-#' @return The requested feature
-#' @export
-
-  extract <- function(x, ...) {
-
-    UseMethod('extract')
-
-  }
-
-#' Convert plot units.
-#'
-#' @param x An object of interest
-#' @param ... Arguments passed to specific methods
-#' @return The object with the value converted to the requested unit
+#' @rdname convert.numeric
 #' @export
 
   convert <- function(x, ...) {
@@ -90,11 +73,27 @@
 
   }
 
-#' Get object height.
-#'
-#' @param x An object of interest
-#' @param ... Arguments passed to specific methods
-#' @return The object's height
+# Change of the object size -------
+
+#' @rdname height.figure
+#' @export
+
+  `height<-` <- function(x, value) {
+
+    UseMethod('height<-')
+
+  }
+
+  #' @rdname height.figure
+  #' @export
+
+  `width<-` <- function(x, value) {
+
+    UseMethod('width<-')
+
+  }
+
+#' @rdname height.figure
 #' @export
 
   height <- function(x, ...) {
@@ -103,11 +102,7 @@
 
   }
 
-#' Get object width.
-#'
-#' @param x An object of interest
-#' @param ... Arguments passed to specific methods
-#' @return The object's width
+#' @rdname height.figure
 #' @export
 
   width <- function(x, ...) {
@@ -116,40 +111,19 @@
 
   }
 
-#' Set object height.
-#'
-#' @param x An object of interest
-#' @param ... Arguments passed to specific methods
-#' @return The object with the modified h property
+#' @rdname height.figure
 #' @export
 
-  `height<-` <- function(x, ...) {
+  resize<- function(x, ...) {
 
-    UseMethod('height<-')
+    UseMethod('resize')
 
   }
 
-#' Set object width.
-#'
-#' @param x An object of interest
-#' @param ... Arguments passed to specific methods
-#' @return The object with the modified w property
-#' @export
-
-  `width<-` <- function(x, ...) {
-
-    UseMethod('width<-')
-
-  }
 
 # object reference in markdown --------
 
-#' Insert an object chunk into an R markdown file
-#'
-#' @description Inserts a reference to the object as an R code chunk into
-#' a R markdown file or prints it into the standard output.
-#' @param object an object to be referenced.
-#' @param ... extra arguments passed to methods.
+#' @rdname insert.figure
 #' @export
 
   insert <- function(object, ...) {
@@ -158,12 +132,7 @@
 
   }
 
-#' Insert an object citation/reference into an R markdown file
-#'
-#' @description Inserts a reference to the object as an inline markdown
-#' reference or prints it into the standard output.
-#' @param object am object to be referenced.
-#' @param .... extra arguments passed to methods.
+#' @rdname refer.figure
 #' @export
 
   refer <- function(object, ...) {
@@ -174,11 +143,7 @@
 
 # saving on the disc ------
 
-#' Save and object on the disc.
-#'
-#' @description Saves an object on the disc.
-#' @param object an object.
-#' @param ... extra arguments passed to methods.
+#' @rdname pickle.figure
 #' @export
 
   pickle <- function(object, ...) {
@@ -189,11 +154,7 @@
 
 # searching ------
 
-#' Search an object by a regular expression.
-#'
-#' @description Searches the content of an object with a regular expression.
-#' @param object an object.
-#' @param ... extra arguments passed to methods.
+#' @rdname reglook.default
 #' @export
 
   reglook <- function(object, ...) {

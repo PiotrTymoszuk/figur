@@ -1,5 +1,12 @@
 # Coercion methods
 
+# collate ------
+
+#' @include generics.R
+#' @include classes.R
+
+  NULL
+
 # Figure object --------
 
 #' Convert an ggplot into a figure object.

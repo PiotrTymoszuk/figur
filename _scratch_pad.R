@@ -1,4 +1,4 @@
-# Testim of the package
+# Testing of the package
 
 # tools -------
 
@@ -45,7 +45,7 @@
 
   fig_list <- list(fig1 = as_figure(car_dist,
                                     w = 90,
-                                    h = 90,
+                                    h = 120,
                                     label = 'test1',
                                     ref_name = 'test1_figure',
                                     caption = 'caption for Figure 1'),
@@ -56,22 +56,13 @@
                                     ref_name = 'test2_figure',
                                     caption = 'caption for Figure 2'))
 
-# Insertion -------
-
-  insert_figure(as_figure(car_panel,
+  car_figure <- as_figure(car_panel,
                           label = 'car_panel',
                           w = 180,
                           h = 120,
-                          unit = 'mm'))
+                          unit = 'mm')
 
-  insert_figure(fig_list[[1]],
-                fig_list[[2]],
-                ref_names = names(fig_list),
-                legend_text = c('text1', 'text2'),
-                html = TRUE,
-                style_ref = 'my_legend')
-
-  insert_figure(fig_list[[1]])
+# Insertion -------
 
   fig_list$fig1 %>% plot
 
@@ -110,7 +101,7 @@
 
   test_mdexpr <- mdexpr(nrow(mtcars), ref_name = 'mtcar_size')
 
-  figur::extract(test_mdexpr, 'ref_name')
+  components(test_mdexpr, 'ref_name')
 
   insert(test_mdexpr, echo = TRUE)
 
@@ -162,6 +153,12 @@
                            legend_text = 'summary analysis panel'))
 
 # additional references -----
+
+  insert(fig_list$fig1)
+
+  insert(fig_list$fig2, relative_dim = TRUE, html = TRUE)
+
+  refer(fig_list$fig1)
 
   refer(report_exp$var_number)
   refer(report_exp$car_number)

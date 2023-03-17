@@ -1,7 +1,7 @@
 Package: figur
 Type: Package
 Title: Smart Handling of Figures, Tables and Code in RMarkdown Documents
-Version: 0.3.0
+Version: 0.3.1
 Author: Piotr Tymoszuk
 Maintainer: Piotr Tymoszuk <piotr.s.tymoszuk@gmail.com>
 Description: Enables streamlined management, RMarkdown insertion 
@@ -12,24 +12,37 @@ Description: Enables streamlined management, RMarkdown insertion
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-Depends: R (>= 4.0.3)
+Depends: 
+    generics,
+    R (>= 4.1.0)
 Imports:
     ggplot2,
-    cowplot,
     purrr,
     rlang,
     stringi,
-    flextable,
-    knitr,
     readr,
     clipr,
-    bib2df
+    bib2df,
 Suggests:
-   tidyverse
+   tidyverse, 
+   cowplot, 
+   flextable, 
+   knitr, 
+   bookdown
 Authors@R: 
     person(given = "Piotr",
            family = "Tymoszuk",
            role = c("aut", "cre"),
            email = "piotr.s.tymoszuk@gmail.com",
            comment = c(ORCID = "0000-0002-0398-6034"))
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
+Collate: 
+    'classes.R'
+    'generics.R'
+    'coercion.R'
+    'general_oop.R'
+    'input_functions.R'
+    'markdown_tools.R'
+    'modif_functions.R'
+    'oop.R'
+    'utils.R'

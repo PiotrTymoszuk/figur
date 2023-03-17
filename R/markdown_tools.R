@@ -1,4 +1,4 @@
-# Tools for inserting figure objects into markdown files.
+# Tools for inserting figure objects into markdown files (not exported)
 
 # markdown helpers ----
 
@@ -83,12 +83,12 @@
 
     ## heading
 
-    body <- figur:::build_fig_back(figure_call = figure_call,
-                                   ref_name = ref_name,
-                                   caption = caption,
-                                   figure_w = figure_w,
-                                   figure_h = figure_h,
-                                   legend = FALSE)
+    body <- build_fig_back(figure_call = figure_call,
+                           ref_name = ref_name,
+                           caption = caption,
+                           figure_w = figure_w,
+                           figure_h = figure_h,
+                           legend = FALSE)
 
     if(!legend) return(body)
 
@@ -286,7 +286,6 @@
 #' @param style_ref name of the CSS style of the legend text, valid only for
 #' the HTML output.
 #' @param append logical, should the output file be appended?
-#' @export
 
   insert_figure <- function(...,
                             file = NULL,
@@ -341,7 +340,7 @@
     }
 
     inp_obj <- purrr::map(inp_obj,
-                          function(x) if(x$unit != 'in') figur::convert(x, to = 'in') else x)
+                          function(x) if(x$unit != 'in') convert(x, to = 'in') else x)
 
     if(is.null(ref_names)) {
 
@@ -365,8 +364,8 @@
 
     fig_calls <- rlang::enexprs(...)
 
-    fig_w <- purrr::map(inp_obj, figur::width)
-    fig_h <- purrr::map(inp_obj, figur::height)
+    fig_w <- purrr::map(inp_obj, width)
+    fig_h <- purrr::map(inp_obj, height)
 
     if(!html) {
 
@@ -376,7 +375,7 @@
                                     figure_w = fig_w,
                                     figure_h = fig_h,
                                     legend_text = legend_text),
-                               figur:::build_fig_back,
+                               build_fig_back,
                                legend = legend)
 
     } else {
@@ -387,7 +386,7 @@
                                     figure_w = fig_w,
                                     figure_h = fig_h,
                                     legend_text = legend_text),
-                               figur:::build_fig_html,
+                               build_fig_html,
                                legend = legend,
                                style_ref = style_ref)
 

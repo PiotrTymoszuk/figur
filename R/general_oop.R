@@ -6,6 +6,8 @@
 #'
 #' @description Select elements of a vector or data frame records which match
 #' the given regular expression.
+#' @details `reglook()` is a S3 generic function with methods defined
+#' for the `data_frame` and `default` class.
 #' @param object an object to be searched.
 #' @param regex a regular expression.
 #' @param keys a vector of data frame variable names to be included
@@ -36,7 +38,7 @@
   reglook.data.frame <- function(object,
                                  regex,
                                  keys = NULL,
-                                 multiple = c('OR', 'AND')) {
+                                 multiple = c('OR', 'AND'), ...) {
 
     ## entry control ---------
 

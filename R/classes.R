@@ -14,7 +14,8 @@
 #' @param ref_name optional, name of the reference to the figure,
 #' used mainly in markdown documents.
 #' @param caption optional, text to be presented in the figure caption.
-#' @param legend optional, text to be presented in the extended figure legend.
+#' @param legend_text optional, text to be presented in
+#' the extended figure legend.
 #' @details ref_name: needs to be a valid markdown/bookdown reference name. By
 #' default, spaces, slashes and underscores are silently turned into '-'.
 #' You may easily insert the read-to-use figure object code chunk into your
