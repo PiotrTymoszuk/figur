@@ -1,3 +1,5 @@
+[![R](https://github.com/PiotrTymoszuk/figur/actions/workflows/r.yml/badge.svg)](https://github.com/PiotrTymoszuk/figur/actions/workflows/r.yml)
+
 # figur
 R package __figur__: Smart Handling of Figures, Tables and Code in RMarkdown Documents
 
