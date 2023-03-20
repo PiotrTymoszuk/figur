@@ -1,5 +1,7 @@
 [![R](https://github.com/PiotrTymoszuk/figur/actions/workflows/r.yml/badge.svg)](https://github.com/PiotrTymoszuk/figur/actions/workflows/r.yml)
 
+<img src="https://user-images.githubusercontent.com/80723424/226479684-947398af-ff69-4ed4-882d-61b724136b65.png" width="10%" height="10%" align = "right">
+
 # figur
 R package __figur__: Smart Handling of Figures, Tables and Code in RMarkdown Documents
 
