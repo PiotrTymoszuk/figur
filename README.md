@@ -15,7 +15,7 @@ devtools::install_github('PiotrTymoszuk/figur')
 
 ```
 
-For the full functionality with Rmakdorw documents, please install also `rmarkdown`, `knitr`, `bookdown` and `flextable`. `cowplot` is recommended as an excellent tool to generate panels of multiple ggplot objects.
+For the full functionality with Rmakdorw documents, please install also `rmarkdown`, `knitr`, `bookdown` and `flextable`. `cowplot` and `patchwork` are recommended as excellent tools to generate panels of multiple ggplot objects.
 
 
 ## Basic usage
