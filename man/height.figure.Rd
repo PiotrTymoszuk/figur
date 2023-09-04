@@ -45,12 +45,12 @@ width(x) <- value
 \item{lock}{logical, if TRUE, the aspect ratio is kept constant (scaling).}
 }
 \value{
-A figure object with the height or width property modified
+A `figure` object with the height or width property modified
 or the requested dimensions.
 }
 \description{
-Get or set set figure object dimensions.
+Get or set dimensions of a `figure` class object.
 }
 \details{
-S3 generic functions.
+`height()`, `width()` and `resize()` are S3 generic functions.
 }

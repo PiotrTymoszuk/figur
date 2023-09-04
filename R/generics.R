@@ -114,7 +114,7 @@
 #' @rdname height.figure
 #' @export
 
-  resize<- function(x, ...) {
+  resize <- function(x, ...) {
 
     UseMethod('resize')
 

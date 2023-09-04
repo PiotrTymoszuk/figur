@@ -163,15 +163,22 @@
 
 #' Get or set set figure object dimensions.
 #'
+#' @description
+#' Get or set dimensions of a `figure` class object.
+#'
+#' @details
+#' `height()`, `width()` and `resize()` are S3 generic functions.
+#'
 #' @param x a figure class object.
 #' @param value new height or width or a scaling factor.
 #' @param what The requested dimension to be changed or the scaling factor.
 #' @param lock logical, if TRUE, the aspect ratio is kept constant (scaling).
 #' @param unit The dimension unit of the final plot object.
 #' @param ... extra arguments passed to methods.
-#' @return A figure object with the height or width property modified
+#'
+#' @return A `figure` object with the height or width property modified
 #' or the requested dimensions.
-#' @details S3 generic functions.
+#'
 #' @export height.figure
 #' @export
 
@@ -414,7 +421,7 @@
 
     ## entry control -----
 
-    stopifnot(figur::is_figure(object))
+    stopifnot(is_figure(object))
     stopifnot(is.logical(html))
     stopifnot(is.logical(append))
 
@@ -479,24 +486,24 @@
 
     if(!html) {
 
-      chunk <- figur:::build_fig_back(figure_call = object_ref,
-                                      ref_name = object$ref_name,
-                                      caption = object$caption,
-                                      figure_w = object_w,
-                                      figure_h = object_h,
-                                      legend = TRUE,
-                                      legend_text = legend_text)
+      chunk <- build_fig_back(figure_call = object_ref,
+                              ref_name = object$ref_name,
+                              caption = object$caption,
+                              figure_w = object_w,
+                              figure_h = object_h,
+                              legend = TRUE,
+                              legend_text = legend_text)
 
     } else {
 
-      chunk <- figur:::build_fig_html(figure_call = object_ref,
-                                      ref_name = object$ref_name,
-                                      caption = object$caption,
-                                      figure_w = object_w,
-                                      figure_h = object_h,
-                                      legend = TRUE,
-                                      legend_text = legend_text,
-                                      style_ref = style_ref)
+      chunk <- build_fig_html(figure_call = object_ref,
+                              ref_name = object$ref_name,
+                              caption = object$caption,
+                              figure_w = object_w,
+                              figure_h = object_h,
+                              legend = TRUE,
+                              legend_text = legend_text,
+                              style_ref = style_ref)
 
     }
 
@@ -536,7 +543,7 @@
 
     ## entry control
 
-    stopifnot(figur::is_mdtable(object))
+    stopifnot(is_mdtable(object))
     stopifnot(is.logical(append))
 
     format <- match.arg(format[1], c('flextable', 'kable'))
@@ -640,16 +647,16 @@
 
     if(format == 'chunk') {
 
-      ref_txt <- figur:::build_chunk(quosure = object$quosure,
-                                     ref_name = object$ref_name,
-                                     include = include,
-                                     echo = echo,
-                                     warning = warning,
-                                     message = message)
+      ref_txt <- build_chunk(quosure = object$quosure,
+                             ref_name = object$ref_name,
+                             include = include,
+                             echo = echo,
+                             warning = warning,
+                             message = message)
 
     } else {
 
-     ref_txt <- figur:::build_inline(quosure = object$quosure)
+     ref_txt <- build_inline(quosure = object$quosure)
 
     }
 
@@ -875,7 +882,7 @@
 
     ## entry control
 
-    stopifnot(figur::is_figure(object))
+    stopifnot(is_figure(object))
 
     if(!is.null(file)) {
 
@@ -894,8 +901,8 @@
 
     ## citation
 
-    ref <- figur:::build_bookdown_ref(ref_name = object$ref_name,
-                                      ref_type = 'figure')
+    ref <- build_bookdown_ref(ref_name = object$ref_name,
+                              ref_type = 'figure')
 
 
     if(is.null(file)) {
@@ -930,7 +937,7 @@
 
     ## entry control
 
-    stopifnot(figur::is_mdtable(object))
+    stopifnot(is_mdtable(object))
 
     if(!is.null(file)) {
 
@@ -940,8 +947,8 @@
 
     ## citation
 
-    ref <- figur:::build_bookdown_ref(ref_name = attr(object, 'ref_name'),
-                                      ref_type = 'table')
+    ref <- build_bookdown_ref(ref_name = attr(object, 'ref_name'),
+                              ref_type = 'table')
 
 
     if(is.null(file)) {
@@ -976,7 +983,7 @@
 
     ## entry control
 
-    stopifnot(figur::is_mdexpr(object))
+    stopifnot(is_mdexpr(object))
 
     if(!is.null(file)) {
 
@@ -986,7 +993,7 @@
 
     ## citation
 
-    ref <- figur:::build_inline(quosure = object$quosure)
+    ref <- build_inline(quosure = object$quosure)
 
 
     if(is.null(file)) {
@@ -1183,7 +1190,7 @@
                              format = 'tsv',
                              delim = '\t', ...) {
 
-    stopifnot(figur::is_mdtable(object))
+    stopifnot(is_mdtable(object))
 
     save_mdtable(mdtable_object = object,
                  folder = folder,
