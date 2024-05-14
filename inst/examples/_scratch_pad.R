@@ -231,7 +231,6 @@
     number_figures(prefix = 'supplementary_figure_s')
 
 
-
 # final html report ------
 
   render('./test/test_report.Rmd',

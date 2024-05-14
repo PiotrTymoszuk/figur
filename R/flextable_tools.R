@@ -47,7 +47,7 @@
 
     for(i in seq_along(widths)) {
 
-      x <- width(x, i, width = widths[i], unit = unit)
+      x <- flextable::width(x, i, width = widths[i], unit = unit)
 
     }
 
