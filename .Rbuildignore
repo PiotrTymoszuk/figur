@@ -1,0 +1,6 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^_scratch.*\.R$
+^\.github$
+inst\examples
+test
