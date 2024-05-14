@@ -2,6 +2,7 @@
 
 # collate ------
 
+#' @include imports.R
 #' @include generics.R
 #' @include classes.R
 
@@ -31,7 +32,7 @@
 
   print.mdexpr <- function(x, ...) {
 
-    expr <- as.expression(rlang::quo_get_expr(x$quosure))
+    expr <- as.expression(quo_get_expr(x$quosure))
 
     cat(paste0('mdexpr: {', as.character(expr), '} = ', x$result))
 
@@ -139,7 +140,7 @@
 
     if(what == 'expression') {
 
-      return(as.expression(rlang::quo_get_expr(object$quosure)))
+      return(as.expression(quo_get_expr(object$quosure)))
 
     }
 
@@ -375,9 +376,11 @@
 #' Insert a figure, data frame, R code chunk, URL link
 #' or text into an R markdown file
 #'
-#' @description Inserts a reference to the figure, mdtable, mdexpr, mdhtml,
+#' @description
+#' Inserts a reference to the figure, mdtable, mdexpr, mdhtml,
 #' mdtext or mdlink object as an R code chunk into a R markdown file or prints
 #' it into the standard output and, concomitantly, copies into the clipboard.
+#'
 #' @param object an object to be referenced.
 #' @param file a file to which the chunks are written. If the file exists
 #' already, it will be appended or overwritten.
@@ -401,14 +404,18 @@
 #' @param warning warning chunk option, skipped if NULL.
 #' @param message message chunk option, skipped if NULL.
 #' @param ... extra arguments, currently none.
-#' @details Only for the figure class instances with
+#'
+#' @details
+#' Only for the \code{\link{figure}}, \code{\link{mdtable}} class instances with
 #' defined 'ref_name' and 'caption' parameters.
 #' To enable the clipboard access, you may need to set the CLIPR_ALLOW
 #' environment variable to TRUE, as described for
 #' \code{\link[clipr]{write_clip}}.
 #' For include, echo, message and warning chunk options, see:
 #' https://rmarkdown.rstudio.com/lesson-3.html
+#'
 #' @return returns invisibly the requested R code chunk.
+#'
 #' @export insert.figure
 #' @export
 
@@ -427,7 +434,8 @@
 
     if(is.null(object$ref_name)) {
 
-      warning('Valid only for figure object with a defined ref_name and caption parameters.',
+      warning(paste('Valid only for figure object with a defined',
+                    'ref_name and caption parameters.'),
               call. = FALSE)
 
       return(invisible(NULL))
@@ -436,7 +444,8 @@
 
     if(is.null(object$caption)) {
 
-      warning('Valid only for figure object with a defined ref_name and caption parameters.',
+      warning(paste('Valid only for figure object with a defined',
+                    'ref_name and caption parameters.'),
               call. = FALSE)
 
       return(invisible(NULL))
@@ -445,7 +454,12 @@
 
     if(!is.null(file)) {
 
-      if(!file.exists(file)) warning('The target_path does not exist, a new will be created.', call. = FALSE)
+      if(!file.exists(file)) {
+
+        warning('The target_path does not exist, a new will be created.',
+                call. = FALSE)
+
+      }
 
     }
 
@@ -474,7 +488,7 @@
 
       dim_call_str <-
         paste0("figur::convert(",
-               rlang::as_label(object_ref),
+               as_label(object_ref),
                ", to = 'in')")
 
       object_w <- paste0(dim_call_str, '$w')
@@ -513,9 +527,9 @@
 
       cat(chunk)
 
-      try(clipr::write_clip(content = chunk,
-                            object_type = 'character',
-                            breaks = '\n'),
+      try(write_clip(content = chunk,
+                     object_type = 'character',
+                     breaks = '\n'),
           silent = TRUE)
 
     } else {
@@ -550,11 +564,16 @@
 
     if(!is.null(file)) {
 
-      if(!file.exists(file)) warning('The target_path does not exist, a new will be created.', call. = FALSE)
+      if(!file.exists(file)) {
+
+        warning('The target_path does not exist, a new will be created.',
+                call. = FALSE)
+
+      }
 
     }
 
-    object_call <- rlang::as_label(substitute(object))
+    object_call <- as_label(substitute(object))
 
     object_ref <- attr(object, 'ref_name')
 
@@ -597,9 +616,9 @@
 
       cat(chunk)
 
-      try(clipr::write_clip(content = chunk,
-                            object_type = 'character',
-                            breaks = '\n'),
+      try(write_clip(content = chunk,
+                     object_type = 'character',
+                     breaks = '\n'),
           silent = TRUE)
 
       return(invisible(chunk))
@@ -666,9 +685,9 @@
 
       cat(ref_txt)
 
-      try(clipr::write_clip(content = ref_txt,
-                            object_type = 'character',
-                            breaks = '\n'),
+      try(write_clip(content = ref_txt,
+                     object_type = 'character',
+                     breaks = '\n'),
           silent = TRUE)
 
       return(invisible(ref_txt))
@@ -701,8 +720,12 @@
 
     if(!is.null(file)) {
 
-      if(!file.exists(file)) warning('The target_path does not exist, a new will be created.',
-                                     call. = FALSE)
+      if(!file.exists(file)) {
+
+        warning('The target_path does not exist, a new will be created.',
+                call. = FALSE)
+
+      }
 
     }
 
@@ -712,9 +735,9 @@
 
       cat(object)
 
-      try(clipr::write_clip(content = object,
-                            object_type = 'character',
-                            breaks = '\n'),
+      try(write_clip(content = object,
+                     object_type = 'character',
+                     breaks = '\n'),
           silent = TRUE)
 
       return(invisible(object))
@@ -752,8 +775,12 @@
 
     if(!is.null(file)) {
 
-      if(!file.exists(file)) warning('The target_path does not exist, a new will be created.',
-                                     call. = FALSE)
+      if(!file.exists(file)) {
+
+        warning('The target_path does not exist, a new will be created.',
+                call. = FALSE)
+
+      }
 
     }
 
@@ -778,9 +805,9 @@
 
       cat(lk_string)
 
-      try(clipr::write_clip(content = lk_string,
-                            object_type = 'character',
-                            breaks = '\n'),
+      try(write_clip(content = lk_string,
+                     object_type = 'character',
+                     breaks = '\n'),
           silent = TRUE)
 
       return(invisible(lk_string))
@@ -813,8 +840,12 @@
 
     if(!is.null(file)) {
 
-      if(!file.exists(file)) warning('The target_path does not exist, a new will be created.',
-                                     call. = FALSE)
+      if(!file.exists(file)) {
+
+        warning('The target_path does not exist, a new will be created.',
+                call. = FALSE)
+
+      }
 
     }
 
@@ -824,9 +855,9 @@
 
       cat(object)
 
-      try(clipr::write_clip(content = object,
-                            object_type = 'character',
-                            breaks = '\n'),
+      try(write_clip(content = object,
+                     object_type = 'character',
+                     breaks = '\n'),
           silent = TRUE)
 
       return(invisible(object))
@@ -849,7 +880,8 @@
 #' Cite a figure, table, literature, text, URL link
 #' or generate inline R/HTML code
 #'
-#' @description Generates an inline citation to a figure, mdtable object or
+#' @description
+#' Generates an inline citation to a figure, mdtable object or
 #' literature references, currently only in the bookdown style.
 #' For mdbib objects, it inserts a citation to a all entries of
 #' a bibliography entries (e.g. `[@citation1; @citation2; ...]`).
@@ -860,6 +892,7 @@
 #' For mdexpr, mdhtml and mdtext objects storing R, HTML code
 #' and ordinary text, respectively, an inline text is generated.
 #' For mdlinks a link in the markdown or html format is generated.
+#'
 #' @param object an object to be referenced.
 #' @param file a file to which the references or code are written.
 #' If the file exists already, it will be appended or overwritten.
@@ -869,10 +902,12 @@
 #' of the mdlink object.
 #' @param html logical, should the link be in a HTML format? Defaults to FALSE.
 #' @param ... extra arguments, currently none.
+#'
 #' @details To enable the clipboard access, you may need to set the CLIPR_ALLOW
 #' environment variable to TRUE, as described for
 #' \code{\link[clipr]{write_clip}}.
 #' `refer()` is a S3 generic function.
+#'
 #' @export refer.figure
 #' @export
 
@@ -886,13 +921,19 @@
 
     if(!is.null(file)) {
 
-      if(!file.exists(file)) warning('The target_path does not exist, a new will be created.', call. = FALSE)
+      if(!file.exists(file)) {
+
+        warning('The target_path does not exist, a new will be created.',
+                call. = FALSE)
+
+      }
 
     }
 
     if(is.null(object$ref_name)) {
 
-      warning('Valid only for figure object with a defined ref_name and caption parameters.',
+      warning(paste('Valid only for figure object with a defined ref_name',
+                    'and caption parameters.'),
               call. = FALSE)
 
       return(invisible(NULL))
@@ -909,9 +950,9 @@
 
       cat(ref)
 
-      try(clipr::write_clip(content = ref,
-                            object_type = 'character',
-                            breaks = '\n'),
+      try(write_clip(content = ref,
+                     object_type = 'character',
+                     breaks = '\n'),
           silent = TRUE)
 
     } else {
@@ -941,7 +982,12 @@
 
     if(!is.null(file)) {
 
-      if(!file.exists(file)) warning('The target_path does not exist, a new will be created.', call. = FALSE)
+      if(!file.exists(file)) {
+
+        warning('The target_path does not exist, a new will be created.',
+                call. = FALSE)
+
+      }
 
     }
 
@@ -955,9 +1001,9 @@
 
       cat(ref)
 
-      try(clipr::write_clip(content = ref,
-                            object_type = 'character',
-                            breaks = '\n'),
+      try(write_clip(content = ref,
+                     object_type = 'character',
+                     breaks = '\n'),
           silent = TRUE)
 
     } else {
@@ -987,7 +1033,12 @@
 
     if(!is.null(file)) {
 
-      if(!file.exists(file)) warning('The target_path does not exist, a new will be created.', call. = FALSE)
+      if(!file.exists(file)) {
+
+        warning('The target_path does not exist, a new will be created.',
+                call. = FALSE)
+
+      }
 
     }
 
@@ -1000,9 +1051,9 @@
 
       cat(ref)
 
-      try(clipr::write_clip(content = ref,
-                            object_type = 'character',
-                            breaks = '\n'),
+      try(write_clip(content = ref,
+                     object_type = 'character',
+                     breaks = '\n'),
           silent = TRUE)
 
     } else {
@@ -1034,8 +1085,12 @@
 
     if(!is.null(file)) {
 
-      if(!file.exists(file)) warning('The target_path does not exist, a new will be created.',
-                                     call. = FALSE)
+      if(!file.exists(file)) {
+
+        warning('The target_path does not exist, a new will be created.',
+                call. = FALSE)
+
+      }
 
     }
 
@@ -1069,9 +1124,9 @@
 
       cat(cit_txt)
 
-      try(clipr::write_clip(content = cit_txt,
-                            object_type = 'character',
-                            breaks = '\n'),
+      try(write_clip(content = cit_txt,
+                     object_type = 'character',
+                     breaks = '\n'),
           silent = TRUE)
 
       return(invisible(cit_txt))
@@ -1157,7 +1212,9 @@
 #' Save a figure object or mdtable object on the disc.
 #'
 #' @description Saves a figure object on the disc.
+#'
 #' @details S3 generic function.
+#'
 #' @param object a figure object.
 #' @param path The target path. The destination folder will not be created.
 #' @param folder The target folder. The destination folder will not be created.
@@ -1165,7 +1222,9 @@
 #' @param delim delimiter for column separation, tabulation by default.
 #' @param ... extra arguments passed to \code{\link[ggplot2]{ggsave}} (figure)
 #' or \code{\link[readr]{write_delim}} (table).
+#'
 #' @return None, called for side effects
+#'
 #' @export pickle.figure
 #' @export
 

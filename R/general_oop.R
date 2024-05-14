@@ -4,10 +4,14 @@
 
 #' Search an object by regular expression.
 #'
-#' @description Select elements of a vector or data frame records which match
+#' @description
+#' Select elements of a vector or data frame records which match
 #' the given regular expression.
-#' @details `reglook()` is a S3 generic function with methods defined
+#'
+#' @details
+#' `reglook()` is a S3 generic function with methods defined
 #' for the `data_frame` and `default` class.
+#'
 #' @param object an object to be searched.
 #' @param regex a regular expression.
 #' @param keys a vector of data frame variable names to be included
@@ -19,7 +23,9 @@
 #' will be merged by logical sum, for 'AND' they will be merged by logical
 #' intersection.
 #' @param ... extra arguments, currently none.
+#'
 #' @return an object of the same class as the input one.
+#'
 #' @export reglook.default
 #' @export
 
@@ -58,9 +64,9 @@
 
     ## searching and merging ---------
 
-    search_res <- purrr::map(object[keys],
-                             search_regex,
-                             regex = regex)
+    search_res <- map(object[keys],
+                      search_regex,
+                      regex = regex)
 
     if(length(search_res) == 1) {
 
@@ -68,13 +74,13 @@
 
     }
 
-    search_res <- purrr::map(search_res,
-                             ~ifelse(is.na(.x), FALSE, .x))
+    search_res <- map(search_res,
+                      ~ifelse(is.na(.x), FALSE, .x))
 
     search_res <-
       switch(multiple,
-             OR = purrr::reduce(search_res, `|`),
-             AND = purrr::reduce(search_res, `&`))
+             OR = reduce(search_res, `|`),
+             AND = reduce(search_res, `&`))
 
     return(object[search_res, ])
 

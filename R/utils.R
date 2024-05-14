@@ -14,16 +14,16 @@
 
     if(!is.list(x)) {
 
-      return(stringi::stri_detect(str = x, regex = regex, ...))
+      return(stri_detect(str = x, regex = regex, ...))
 
     }
 
-    search_res <- purrr::map(x,
-                             stringi::stri_detect,
-                             regex = regex, ...)
+    search_res <- map(x,
+                      stri_detect,
+                      regex = regex, ...)
 
 
-    return(purrr::map_lgl(search_res, any))
+    return(map_lgl(search_res, any))
 
   }
 

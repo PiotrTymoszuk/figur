@@ -8,6 +8,7 @@
 #' @param path The target path. The destination folder will not be created
 #' @param format the desired file format.
 #' @param ... extra arguments passed to \code{\link[ggplot2]{ggsave}}.
+#'
 #' @return None, called for side effects
 
   save_figure <- function(figure_object,
@@ -29,12 +30,12 @@
                   'to',
                   path))
 
-    ggplot2::ggsave(filename = filename,
-                    plot = plot(figure_object),
-                    path = path,
-                    width = width(figure_object),
-                    height = height(figure_object),
-                    units = components(figure_object, 'unit'), ...)
+    ggsave(filename = filename,
+           plot = plot(figure_object),
+           path = path,
+           width = width(figure_object),
+           height = height(figure_object),
+           units = components(figure_object, 'unit'), ...)
 
   }
 
@@ -45,6 +46,7 @@
 #' @param format the desired file format.
 #' @param delim delimiter for column separation, tabulation by default.
 #' @param ... extra arguments passed to \code{\link[readr]{write_delim}}.
+#'
 #' @return None, called for side effects
 
   save_mdtable <- function(mdtable_object,
@@ -69,7 +71,7 @@
 
     path <- paste(folder, filename, sep = '/')
 
-    readr::write_delim(x = mdtable_object, file = path, delim = delim, ...)
+    write_delim(x = mdtable_object, file = path, delim = delim, ...)
 
   }
 

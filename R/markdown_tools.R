@@ -5,6 +5,7 @@
 #' Create a R markdown backbone for a figure call.
 #'
 #' @description Builds a character with the R code chunk for the given figure.
+#'
 #' @param figure_call call to a figure object.
 #' @param ref_name name of the figure chunk in the R markdown output.
 #' @param caption figure caption.
@@ -12,9 +13,10 @@
 #' returning a numeric provided as a character.
 #' @param figure_h figure height in inches or a call to a function
 #' returning a numeric provided as a character.
-#' @param legend logical, should a text with the figure reference in bold be included below
-#' the figure chunk?
+#' @param legend logical, should a text with the figure reference in bold be
+#' included below the figure chunk?
 #' @param legend_text detailed legend text.
+#'
 #' @return a string with the figure object R markdown chunk.
 
   build_fig_back <- function(figure_call,
@@ -27,7 +29,7 @@
 
     stopifnot(is.logical(legend))
 
-    fig_label <- rlang::as_label(figure_call)
+    fig_label <- as_label(figure_call)
 
     ## heading
 
@@ -65,10 +67,15 @@
 
 #' Create an R markdown/HTML backbone for a figure call.
 #'
-#' @description Builds a character with the R code chunk for the given figure
+#' @description
+#' Builds a character with the R code chunk for the given figure
 #' and HTML/CSS styling of the legend.
+#'
 #' @inheritParams build_fig_back
+#'
 #' @param style_ref name of the CSS style of the legend text.
+#'
+#' @return a string with the requested R code chunk and HTML legend.
 
   build_fig_html <- function(figure_call,
                              ref_name = 'figure',
@@ -117,10 +124,13 @@
 
 #' Create an R markdown figure/table citation text.
 #'
-#' @description Generates a customized inline reference to a figure or table
+#' @description
+#' Generates a customized inline reference to a figure or table
 #' with the bookdown standard.
+#'
 #' @param ref_name reference name.
 #' @param ref_type reference type: table or figure.
+#'
 #' @return a citation text.
 
   build_bookdown_ref <- function(ref_name,
@@ -148,12 +158,14 @@
 #'
 #' @description Builds a standard code chunk with the user-specified options
 #' based on the quosure object provided.
+#'
 #' @param quosure a quosure object.
 #' @param ref_name reference name, skipped if NULL.
 #' @param include include chunk option, skipped if NULL.
 #' @param echo echo chunk option, skipped if NULL.
 #' @param warning warning chunk option, skipped if NULL.
 #' @param message message chunk option, skipped if NULL.
+#'
 #' @return a chunk text.
 
   build_chunk <- function(quosure,
@@ -165,9 +177,9 @@
 
     ## entry control
 
-    stopifnot(rlang::is_quosure(quosure))
+    stopifnot(is_quosure(quosure))
 
-    quo_text <- as.expression(rlang::quo_get_expr(quosure))
+    quo_text <- as.expression(quo_get_expr(quosure))
 
     quo_text <- as.character(quo_text)
 
@@ -258,9 +270,9 @@
 
   build_inline <- function(quosure) {
 
-    stopifnot(rlang::is_quosure(quosure))
+    stopifnot(is_quosure(quosure))
 
-    quo_text <- as.expression(rlang::quo_get_expr(quosure))
+    quo_text <- as.expression(quo_get_expr(quosure))
 
     quo_text <- as.character(quo_text)
 
@@ -272,20 +284,26 @@
 
 #' Insert a reference to figure objects into a Rmarkdown file.
 #'
-#' @description Builds a character with the R code chunks for the given figure objects.
+#' @description
+#' Builds a character with the R code chunks for the given figure objects.
+#'
 #' @param ... figure objects.
-#' @param file a file to which the chunks are written. If the file exists already, it will
-#' be appended or overwritten. If NULL, the text is printed in the console.
+#' @param file a file to which the chunks are written. If the file exists
+#' already, it will be appended or overwritten. If NULL, the text is printed
+#' in the console.
 #' @param ref_names names of the figure chunk in the R markdown output.
 #' If NULL, default names ('figure1', 'figure2' and so on) are used.
-#' @param captions figure captions. If NULL, default captions ('caption for figure 1' and so on) are used.
-#' @param legend logical, should a text with the figure reference in bold be included below
-#' the figure chunk?
+#' @param captions figure captions. If NULL, default captions
+#' ('caption for figure 1' and so on) are used.
+#' @param legend logical, should a text with the figure reference in bold be
+#' included below the figure chunk?
 #' @param legend_text a character vector or list with detailed legend texts.
 #' @param html logical: should the legend be HTML styled?
 #' @param style_ref name of the CSS style of the legend text, valid only for
 #' the HTML output.
 #' @param append logical, should the output file be appended?
+#'
+#' @return invisibly retuns a ready-to-use figure chunk text.
 
   insert_figure <- function(...,
                             file = NULL,
@@ -297,23 +315,29 @@
                             style_ref = 'legend',
                             append = FALSE) {
 
-    ## entry control
+    ## entry control --------
 
     stopifnot(is.logical(legend))
     stopifnot(is.logical(append))
     stopifnot(is.logical(html))
 
-    inp_obj <- rlang::list2(...)
+    inp_obj <- list2(...)
 
-    classes <- purrr::map_lgl(inp_obj, is_figure)
+    classes <- map_lgl(inp_obj, is_figure)
 
-    if(!all(classes)) stop("An object of class 'figure' is required.", call. = FALSE)
+    if(!all(classes)) {
+
+      stop("An object of class 'figure' is required.", call. = FALSE)
+
+    }
 
     if(!is.null(captions)) {
 
       if(length(captions) != length(inp_obj)) {
 
-        stop('The ref_name and captions argument lengths must be equal to the number of figure objects', call. = FALSE)
+        stop(paste('The ref_name and captions argument lengths must',
+                   'be equal to the number of figure objects'),
+             call. = FALSE)
 
       }
 
@@ -323,7 +347,9 @@
 
       if(length(ref_names) != length(inp_obj)) {
 
-        stop('The ref_name and captions argument lengths must be equal to the number of figure objects', call. = FALSE)
+        stop(paste('The ref_name and captions argument lengths must',
+                   'be equal to the number of figure objects'),
+             call. = FALSE)
 
       }
 
@@ -333,14 +359,17 @@
 
       if(length(legend_text) != length(inp_obj)) {
 
-        stop('The legned_text argument lengths must be 1 or equal to the number of figure objects', call. = FALSE)
+        stop(paste('The legned_text argument lengths must be 1 or equal',
+                   'to the number of figure objects'),
+             call. = FALSE)
 
       }
 
     }
 
-    inp_obj <- purrr::map(inp_obj,
-                          function(x) if(x$unit != 'in') convert(x, to = 'in') else x)
+    inp_obj <-
+      map(inp_obj,
+          function(x) if(x$unit != 'in') convert(x, to = 'in') else x)
 
     if(is.null(ref_names)) {
 
@@ -356,51 +385,56 @@
 
     if(!is.null(file)) {
 
-      if(!file.exists(file)) warning('The target_path does not exist, a new will be created.', call. = FALSE)
+      if(!file.exists(file)) {
+
+        warning('The target_path does not exist, a new will be created.',
+                call. = FALSE)
+
+      }
 
     }
 
-    ## building the backbone
+    ## building the backbone ------------
 
-    fig_calls <- rlang::enexprs(...)
+    fig_calls <- enexprs(...)
 
-    fig_w <- purrr::map(inp_obj, width)
-    fig_h <- purrr::map(inp_obj, height)
+    fig_w <- map(inp_obj, width)
+    fig_h <- map(inp_obj, height)
 
     if(!html) {
 
-      backbones <- purrr::pmap(list(figure_call = fig_calls,
-                                    ref_name = ref_names,
-                                    caption = captions,
-                                    figure_w = fig_w,
-                                    figure_h = fig_h,
-                                    legend_text = legend_text),
-                               build_fig_back,
-                               legend = legend)
+      backbones <- pmap(list(figure_call = fig_calls,
+                             ref_name = ref_names,
+                             caption = captions,
+                             figure_w = fig_w,
+                             figure_h = fig_h,
+                             legend_text = legend_text),
+                        build_fig_back,
+                        legend = legend)
 
     } else {
 
-      backbones <- purrr::pmap(list(figure_call = fig_calls,
-                                    ref_name = ref_names,
-                                    caption = captions,
-                                    figure_w = fig_w,
-                                    figure_h = fig_h,
-                                    legend_text = legend_text),
-                               build_fig_html,
-                               legend = legend,
-                               style_ref = style_ref)
+      backbones <- pmap(list(figure_call = fig_calls,
+                             ref_name = ref_names,
+                             caption = captions,
+                             figure_w = fig_w,
+                             figure_h = fig_h,
+                             legend_text = legend_text),
+                        build_fig_html,
+                        legend = legend,
+                        style_ref = style_ref)
 
     }
 
     if(is.null(file)) {
 
-      purrr::walk(backbones, cat)
+      walk(backbones, cat)
 
       invisible(backbones)
 
     } else {
 
-      backbones <- purrr::reduce(backbones, c)
+      backbones <- reduce(backbones, c)
 
       backbones <- paste(backbones, collapse = '\n\n')
 

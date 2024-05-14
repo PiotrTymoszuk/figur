@@ -4,8 +4,10 @@
 
 #' Generate a figure object.
 #'
-#' @description Bundles a ggplot/cowplot object, file reference, the final
+#' @description
+#' Bundles a ggplot/cowplot object, file reference, the final
 #' rendered graphic dimensions and markdown references in one figure object.
+
 #' @param x a ggplot/cowplot object
 #' @param label the final file name
 #' @param w the final width after saving/rendering
@@ -16,12 +18,16 @@
 #' @param caption optional, text to be presented in the figure caption.
 #' @param legend_text optional, text to be presented in
 #' the extended figure legend.
-#' @details ref_name: needs to be a valid markdown/bookdown reference name. By
+#'
+#' @details
+#' ref_name: needs to be a valid markdown/bookdown reference name. By
 #' default, spaces, slashes and underscores are silently turned into '-'.
 #' You may easily insert the read-to-use figure object code chunk into your
 #' Rmarkdown document with the `insert()` method or reference it in the text
 #' by calling `refer()`.
+#'
 #' @return An object of class 'figure'
+#'
 #' @export
 
   figure <- function(x,
@@ -33,7 +39,7 @@
                      caption = NULL,
                      legend_text = NULL) {
 
-    if(!ggplot2::is.ggplot(x)) stop("An object of class 'ggplot' is required", call. = FALSE)
+    if(!is.ggplot(x)) stop("An object of class 'ggplot' is required", call. = FALSE)
     if(!is.numeric(w)) stop('The w argument needs to be a number', call. = FALSE)
     if(!is.numeric(h)) stop('The h argument needs to be a number', call. = FALSE)
 
@@ -41,9 +47,9 @@
 
     if(!is.null(ref_name)) {
 
-      ref_name <- stringi::stri_replace_all(ref_name,
-                                            regex = '\\s|\\|/|_',
-                                            replacement = '-')
+      ref_name <- stri_replace_all(ref_name,
+                                   regex = '\\s|\\|/|_',
+                                   replacement = '-')
 
     }
 
@@ -92,9 +98,9 @@
 
     }
 
-    ref_name <- stringi::stri_replace_all(ref_name,
-                                          regex = '\\s|\\|/|_',
-                                          replacement = '-')
+    ref_name <- stri_replace_all(ref_name,
+                                 regex = '\\s|\\|/|_',
+                                 replacement = '-')
 
     attr(x, 'label') <- label
     attr(x, 'ref_name') <- ref_name
@@ -131,9 +137,9 @@
                      ref_name = NULL,
                      caption = NULL, ...) {
 
-    quo_call <- rlang::enquo(x)
+    quo_call <- enquo(x)
 
-    quo_res <- rlang::eval_tidy(quo_call)
+    quo_res <- eval_tidy(quo_call)
 
     if(any(is.null(quo_res))) {
 
@@ -155,9 +161,9 @@
 
     if(!is.null(ref_name)) {
 
-      ref_name <- stringi::stri_replace_all(ref_name,
-                                            regex = '\\s|\\|/|_',
-                                            replacement = '-')
+      ref_name <- stri_replace_all(ref_name,
+                                   regex = '\\s|\\|/|_',
+                                   replacement = '-')
 
     }
 
@@ -169,17 +175,36 @@
 
   }
 
+#' @rdname mdexpr
+#' @export
+
+  as_mdexpr <- function(x, ...) {
+
+    UseMethod('as_mdexpr')
+
+  }
+
+#' @rdname mdexpr
+#' @export
+
+  as_mdexpr.default <- function(x, ...) mdexpr(x, ...)
+
 # link and html tag S3 object constructors -------
 
 #' Generate an mdlink object.
 #'
-#' @description Generates an mdlink object which holds together
+#' @description
+#' Generates an mdlink object which holds together
 #' the URL and tile of a link.
-#' @details Particularly useful for link used multiple times
+#'
+#' @details
+#' Particularly useful for link used multiple times
 #' in an Rmarkdown document. You may easily insert them (e.g. via copy and paste)
 #' by calling the `insert()` or `refer()` method.
+#'
 #' @param x a URL
 #' @param ref_name a link title
+#'
 #' @export
 
   mdlink <- function(x, ref_name) {
@@ -219,18 +244,18 @@
 
     if(!is.character(x)) {
 
-      stop("'x' hast to be a character.", call. = FALSE)
+      stop("'x' has to be a character.", call. = FALSE)
 
     }
 
-    if(!stringi::stri_detect(x, regex = '^<.*>')) {
+    if(!stri_detect(x, regex = '^<.*>')) {
 
       stop("The string provided as 'x' is unlikely a valid HTML tag.",
            call. = FALSE)
 
     }
 
-    if(!stringi::stri_detect(x, regex = '(</.*>)|(<.*\\s{1}/>)$')) {
+    if(!stri_detect(x, regex = '(</.*>)|(<.*\\s{1}/>)$')) {
 
       stop("The string provided as 'x' is unlikely a valid HTML tag.",
            call. = FALSE)
@@ -247,14 +272,19 @@
 
 #' Create an mdtext container.
 #'
-#' @description Creates a container for custom text to be (re-) used in the
+#' @description
+#' Creates a container for custom text to be (re-) used in the
 #' Rmarkdown document.
-#' @details Storing some fixed text parts used multiple times in the Rmarkdown
+#'
+#' @details
+#' Storing some fixed text parts used multiple times in the Rmarkdown
 #' document (e.g. parts of figure legends) as mdtext provides a smarter
 #' alternative to the tarditional 'copy-paste' approach.
 #' You may insert the text chunk in your document by calling the
 #' `insert()` or `refer()` method.
+#'
 #' @param x a string to be stored as mdtext object.
+#'
 #' @export
 
   mdtext <- function(x) {
@@ -271,14 +301,20 @@
 
 #' Create an mdbib object storing document's bibliography
 #'
-#' @description Creates an mdbib object storing bibliography information
+#' @description
+#' Creates an mdbib object storing bibliography information
 #' (preferably derived from a BibTex file). Takes a data frame or a similar
 #' structure. The variable named 'BIBTEXKEY' is required.
-#' @details The object is built on the top of a data frame and inherits
+#'
+#' @details
+#' The object is built on the top of a data frame and inherits
 #' multiple functions/methods from the 'data_frame' class.
+#'
 #' @param x a data frame. It has to contain the 'BIBTEXKEY' variable.
 #' @param ... additional arguments, currently none defined.
+#'
 #' @return an object of the 'mdbib' class.
+#'
 #' @export
 
   mdbib <- function(x, ...) {
@@ -310,12 +346,17 @@
 
   }
 
-# S3 class checker -----
+# S3 class checkers -----
 
-#' Check for a figure object.
+#' Check for class inheritance
 #'
-#' @param x An object to test
-#' @return Logical, TRUE if the 'figure' class object
+#' @description
+#' Check if an object inherits from a class of interest.
+#'
+#' @param x An object to test.
+#'
+#' @return Logical, TRUE if the object belongs to the class of interest.
+#'
 #' @export
 
   is_figure <- function(x) {
@@ -324,10 +365,7 @@
 
   }
 
-#' Check for a mdtable object.
-#'
-#' @param x An object to test
-#' @return Logical, TRUE if the 'mdtable' class object provided.
+#' @rdname is_figure
 #' @export
 
   is_mdtable <- function(x) {
@@ -336,10 +374,7 @@
 
   }
 
-#' Check for a mdexpr object.
-#'
-#' @param x An object to test
-#' @return Logical, TRUE if the 'mdexpr' class object provided.
+#' @rdname is_figure
 #' @export
 
   is_mdexpr <- function(x) {
@@ -348,10 +383,7 @@
 
   }
 
-#' Check for a mdlink object.
-#'
-#' @param x An object to test
-#' @return Logical, TRUE if the 'mdlink' class object provided.
+#' @rdname is_figure
 #' @export
 
   is_mdlink <- function(x) {
@@ -360,10 +392,7 @@
 
   }
 
-#' Check for a mdhtml object.
-#'
-#' @param x An object to test
-#' @return Logical, TRUE if the 'mdhtml' class object provided.
+#' @rdname is_figure
 #' @export
 
   is_mdhtml <- function(x) {
@@ -372,10 +401,7 @@
 
   }
 
-#' Check for a mdtext object.
-#'
-#' @param x An object to test
-#' @return Logical, TRUE if the 'mdtext' class object provided.
+#' @rdname is_figure
 #' @export
 
   is_mdtext <- function(x) {
@@ -384,10 +410,7 @@
 
   }
 
-#' Check for a mdbib object.
-#'
-#' @param x An object to test
-#' @return Logical, TRUE if the 'mdbib' class object provided.
+#' @rdname is_figure
 #' @export
 
   is_mdbib <- function(x) {
