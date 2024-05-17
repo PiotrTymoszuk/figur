@@ -1,7 +1,7 @@
 Package: figur
 Type: Package
 Title: Smart Handling of Figures, Tables and Code in RMarkdown Documents
-Version: 1.0.0
+Version: 1.0.1
 Author: Piotr Tymoszuk
 Maintainer: Piotr Tymoszuk <piotr.s.tymoszuk@gmail.com>
 Description: Enables streamlined management, RMarkdown insertion 

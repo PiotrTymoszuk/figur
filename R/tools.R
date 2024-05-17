@@ -87,4 +87,60 @@
 
   html_sub <- function(x) paste0('<sub>', x, '</sub>')
 
+# Text formatting helpers -------
+
+#' Collapse elements of a text vector with comma/and.
+#'
+#' @description
+#' Collapses elements of a text vector with commas and inserts 'and' before
+#' the last element.
+#'
+#' @return a character string.
+#'
+#' @param x a text vector or a vector coercible to a character.
+#' @param oxford logical, should the 'and' be placed according to the Oxford
+#' comma rule?
+#'
+#' @export
+
+  collapse_and <- function(x, oxford = TRUE) {
+
+    ## entry control
+
+    x <- try(as.character(x), silent = TRUE)
+
+    if(inherits(x, 'try-error')) {
+
+      stop("'x' must be coercible to a character vector.", call. = FALSE)
+
+    }
+
+    stopifnot(is.logical(oxford))
+
+    ## collapsing
+
+    n <- length(x)
+
+    if(n == 1) return(x)
+
+    if(n == 2) return(paste(x[1], x[2], sep = ' and '))
+
+    if(oxford) {
+
+      separator <- ", and "
+
+    } else {
+
+      separator <- " and "
+
+    }
+
+    result <- paste(x[-n], collapse = ', ')
+
+    result <- paste(result, x[n], sep = separator)
+
+    result
+
+  }
+
 # END ------
