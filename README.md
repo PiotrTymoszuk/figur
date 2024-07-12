@@ -1,4 +1,3 @@
-[![R](https://github.com/PiotrTymoszuk/figur/actions/workflows/r.yml/badge.svg)](https://github.com/PiotrTymoszuk/figur/actions/workflows/r.yml)
 
 <img src="https://user-images.githubusercontent.com/80723424/226479684-947398af-ff69-4ed4-882d-61b724136b65.png" width="10%" height="10%" align = "right">
 
@@ -15,7 +14,7 @@ devtools::install_github('PiotrTymoszuk/figur')
 
 ```
 
-For the full functionality with Rmakdorw documents, please install also `rmarkdown`, `knitr`, `bookdown` and `flextable`. `cowplot` and `patchwork` are recommended as excellent tools to generate panels of multiple ggplot objects.
+For the full functionality with Rmakdown documents, please install also `rmarkdown`, `knitr`, `bookdown` and `flextable`. `cowplot` and `patchwork` are recommended as excellent tools to generate panels of multiple ggplot objects.
 
 
 ## Basic usage
