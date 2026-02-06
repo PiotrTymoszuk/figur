@@ -143,4 +143,164 @@
 
   }
 
+#' Capitalize and de-capitalize the first character of a string.
+#'
+#' @description
+#' The functions capitalize or de-capitalize the first character of a string.
+#'
+#' @param x a text vector or a vector coercible to a character.
+#'
+#' @return a character vector.
+#'
+#' @export
+
+  stri_capitalize_first <- function(x) {
+
+    ## entry control
+
+    x <- try(as.character(x), silent = TRUE)
+
+    if(inherits(x, 'try-error')) {
+
+      stop("'x' must be coercible to a character vector.", call. = FALSE)
+
+    }
+
+    ## editing the string
+
+    first_chr <- stri_extract(x,
+                              regex = '^\\w{1}')
+
+    first_chr <- toupper(first_chr)
+
+    tail_chr <- stri_replace(x,
+                             regex = '^\\w{1}',
+                             replacement = '')
+
+    ## output for single characters and character vectors
+
+    if(length(x) == 1) return(paste0(first_chr, tail_chr))
+
+    map2_chr(first_chr, tail_chr, paste0)
+
+  }
+
+#' @rdname stri_capitalize_first
+#' @export
+
+  stri_decapitalize_first <- function(x) {
+
+    ## entry control
+
+    x <- try(as.character(x), silent = TRUE)
+
+    if(inherits(x, 'try-error')) {
+
+      stop("'x' must be coercible to a character vector.", call. = FALSE)
+
+    }
+
+    ## editing the string
+
+    first_chr <- stri_extract(x,
+                              regex = '^\\w{1}')
+
+    first_chr <- tolower(first_chr)
+
+    tail_chr <- stri_replace(x,
+                             regex = '^\\w{1}',
+                             replacement = '')
+
+    ## output for single characters and character vectors
+
+    if(length(x) == 1) return(paste0(first_chr, tail_chr))
+
+    map2_chr(first_chr, tail_chr, paste0)
+
+  }
+
+# Plot label manipulation --------
+
+#' Move plot tag to subtitle.
+#'
+#' @description
+#' Moves plot tag to subtitle. Any new line marks at the beginning of
+#' the tag will be removed. New line marks in the body of the tag will be
+#' replaced by the string provided as `line_replacement`.
+#' If `replace = TRUE`, the existing subtitle will be replaced by the tag.
+#' Otherwise, it will be pasted with the existing one with a separator defined
+#' by the `sep` argument.#'
+#'
+#' @param x a `ggplot` object.
+#' @param line_replacement a string to replace new lines in the tag's body.
+#' @param tolower logical, should the tag be decapitalized prior to moving
+#' to the subtitle?
+#' @param replace logical, should the existing subtitle be replaced?
+#' @param sep separator for pasting the existing subtitle and the tag. Ignored
+#' if `replace = TRUE`,
+#' @param before logical, should the tag be pasted before the existing subtitle?
+#' Ignored if `replace = TRUE`.
+#'
+#' @export
+
+  tag2subtitle <- function(x,
+                           line_replacement = ', ',
+                           tolower = FALSE,
+                           replace = TRUE,
+                           sep = '\n',
+                           before = FALSE) {
+
+    ## entry control -------
+
+    stopifnot(is.logical(tolower))
+    stopifnot(is.logical(replace))
+    stopifnot(is.logical(before))
+    stopifnot(is.character(line_replacement))
+    stopifnot(is.character(sep))
+
+    if(!is.ggplot(x)) stop("'x' has to be a ggplot object.", call. = FALSE)
+
+    ## moves the plot tag to the subtitle --------
+
+    plot_subtitle <- x$labels$tag
+
+    if(is.null(plot_subtitle)) return(x)
+
+    plot_subtitle <- stri_replace(plot_subtitle,
+                                  regex = '^\\n',
+                                  replacement = '')
+
+    plot_subtitle <- stri_replace_all(plot_subtitle,
+                                      fixed = '\n',
+                                      replacement = line_replacement)
+
+    if(tolower) plot_subtitle <- tolower(plot_subtitle)
+
+    current_subtitle <- x$labels$subtitle
+
+    if(!replace & !is.null(current_subtitle)) {
+
+      if(before) {
+
+        plot_subtitle <- paste(plot_subtitle,
+                               current_subtitle,
+                               sep = sep)
+
+      } else {
+
+        plot_subtitle <- paste(current_subtitle,
+                               plot_subtitle,
+                               sep = sep)
+
+      }
+
+    }
+
+    x +
+      labs(subtitle = plot_subtitle,
+           tag = NULL) +
+      theme(plot.tag = element_blank())
+
+  }
+
 # END ------

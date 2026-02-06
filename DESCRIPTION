@@ -1,7 +1,7 @@
 Package: figur
 Type: Package
 Title: Smart Handling of Figures, Tables and Code in RMarkdown Documents
-Version: 1.0.1
+Version: 1.1.0
 Author: Piotr Tymoszuk
 Maintainer: Piotr Tymoszuk <piotr.s.tymoszuk@gmail.com>
 Description: Enables streamlined management, RMarkdown insertion 
@@ -9,7 +9,7 @@ Description: Enables streamlined management, RMarkdown insertion
     data frames and R code.
     Keeps together the graphic/table/code object, 
     its final dimensions, legend, final file name and the evaluation result.
-License: GPL-3
+License: GPL-3 + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Depends: 
@@ -39,7 +39,7 @@ Authors@R:
            role = c("aut", "cre"),
            email = "piotr.s.tymoszuk@gmail.com",
            comment = c(ORCID = "0000-0002-0398-6034"))
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.3
 Collate: 
     'classes.R'
     'generics.R'

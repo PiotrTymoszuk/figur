@@ -25,7 +25,9 @@
              fill = 'steelblue') +
     theme_classic() +
     theme(axis.title.y = element_blank()) +
-    labs(title = 'Miles per gallon')
+    labs(title = 'Miles per gallon',
+         subtitle = "The R's cars data set",
+         tag = paste('\nn =', nrow(cars)))
 
 
   car_cyl <- test_cars %>%
@@ -201,9 +203,9 @@
 
 # Citations -------
 
-  test_bib <- read_bib('./test/test_biblio.bib')
+  test_bib <- read_bib('./inst/test/test_biblio.bib')
 
-  mol_bib <- read_bib('./test/mol_biblio.bib')
+  mol_bib <- read_bib('./inst/test/mol_biblio.bib')
 
   test_bib %>%
     reglook(keys = 'AUTHOR',
@@ -219,7 +221,7 @@
     reglook(regex = '(The Cancer)|(GSE\\d+)') %>%
     refer
 
-  bib2df::bib2df('./test/mol_biblio.bib') %>%
+  bib2df::bib2df('./inst/test/mol_biblio.bib') %>%
     reglook(regex = '(The Cancer)|(GSE\\d+)')
 
   test_bib$AUTHOR %>%
@@ -233,8 +235,8 @@
 
 # final html report ------
 
-  render('./test/test_report.Rmd',
+  render('./inst/test/test_report.Rmd',
          output_format = html_document2(css = 'styles.css'),
-         output_dir = './test')
+         output_dir = './inst/test')
 
 # END -------

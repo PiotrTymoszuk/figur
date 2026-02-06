@@ -2,10 +2,14 @@
 
 #' @importFrom ggplot2 is.ggplot
 #' @importFrom ggplot2 ggsave
+#' @importFrom ggplot2 labs
+#' @importFrom ggplot2 theme
+#' @importFrom ggplot2 element_blank
 #'
 #' @importFrom stringi stri_replace_all
 #' @importFrom stringi stri_detect
 #' @importFrom stringi stri_replace
+#' @importFrom stringi stri_extract
 #'
 #' @importFrom rlang enquo
 #' @importFrom rlang eval_tidy
@@ -22,6 +26,7 @@
 #' @importFrom purrr reduce
 #' @importFrom purrr pmap
 #' @importFrom purrr walk
+#' @importFrom purrr map2_chr
 #'
 #' @importFrom dplyr tibble
 #'
